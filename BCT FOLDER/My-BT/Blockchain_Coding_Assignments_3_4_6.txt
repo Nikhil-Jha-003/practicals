@@ -1,0 +1,254 @@
+BLOCKCHAIN TECHNOLOGY LAB – CODING ASSIGNMENTS ONLY Assignments 3, 4 and
+6
+
+Only Assignments 3, 4 and 6 from the first six require writing
+program/model code. Assignments 1 and 2 are MetaMask setup activities,
+and Assignment 5 is a survey report.
+
+============================================================ ASSIGNMENT
+3 – BANK ACCOUNT SMART CONTRACT
+============================================================
+
+Aim: Create a smart contract that allows a customer to deposit Ether,
+withdraw Ether and check their balance.
+
+Solidity code (BankAccount.sol):
+
+    // SPDX-License-Identifier: MIT
+    pragma solidity ^0.8.20;
+
+    contract BankAccount {
+        mapping(address => uint256) private balances;
+
+        function deposit() public payable {
+            require(msg.value > 0, "Deposit must be greater than zero");
+            balances[msg.sender] += msg.value;
+        }
+
+        function withdraw(uint256 amount) public {
+            require(amount > 0, "Amount must be greater than zero");
+            require(balances[msg.sender] >= amount, "Insufficient balance");
+
+            balances[msg.sender] -= amount;
+
+            (bool success, ) = payable(msg.sender).call{value: amount}("");
+            require(success, "Transfer failed");
+        }
+
+        function showBalance() public view returns (uint256) {
+            return balances[msg.sender];
+        }
+    }
+
+Short explanation: - mapping(address => uint256) stores a separate
+balance for each wallet address. - deposit() is payable, so it can
+receive Ether. msg.value is the amount sent. - msg.sender identifies the
+wallet calling the function. - withdraw(amount) checks that the amount
+is valid and that the caller has enough balance, then transfers Ether
+back. - showBalance() returns the caller’s recorded balance. It is
+marked view because it only reads data. - Ether amounts in Solidity are
+represented in wei. 1 ETH = 10^18 wei.
+
+How to run: 1. Open Remix IDE and create BankAccount.sol. 2. Paste the
+code and compile using Solidity 0.8.20 or a compatible 0.8.x compiler.
+3. Deploy the contract using a local VM or the test network specified by
+your instructor. 4. Enter an ETH value in Remix’s Value field and call
+deposit(). 5. Call showBalance() to check the balance. 6. Enter a
+withdrawal amount in wei and call withdraw(). 7. Call showBalance()
+again to verify the updated balance.
+
+============================================================ ASSIGNMENT
+4 – STUDENT RECORDS USING STRUCT, ARRAY AND FALLBACK
+============================================================
+
+Aim: Create a Solidity program to store student information using
+structures and arrays, and include a fallback function.
+
+Solidity code (StudentRecords.sol):
+
+    // SPDX-License-Identifier: MIT
+    pragma solidity ^0.8.20;
+
+    contract StudentRecords {
+        struct Student {
+            uint256 rollNo;
+            string name;
+            uint256 marks;
+        }
+
+        Student[] public students;
+
+        function addStudent(
+            uint256 _rollNo,
+            string memory _name,
+            uint256 _marks
+        ) public {
+            students.push(Student(_rollNo, _name, _marks));
+        }
+
+        function getStudentCount() public view returns (uint256) {
+            return students.length;
+        }
+
+        function getStudent(uint256 index)
+            public
+            view
+            returns (uint256, string memory, uint256)
+        {
+            require(index < students.length, "Invalid student index");
+
+            Student memory s = students[index];
+            return (s.rollNo, s.name, s.marks);
+        }
+
+        fallback() external payable {
+        }
+
+        receive() external payable {
+        }
+    }
+
+Short explanation: - struct Student groups the roll number, name and
+marks into one student record. - Student[] public students creates a
+dynamic array of student records. - addStudent() creates a record and
+adds it to the array using push(). - getStudentCount() returns the
+number of records. - getStudent(index) returns the details at the
+selected array index. require() checks that the index is valid. -
+fallback() runs when a call does not match a function in the contract.
+It is payable so it can receive Ether. - receive() handles plain Ether
+transfers with empty calldata. It is included as an additional
+Ether-receiving function; the assignment specifically asks for fallback.
+
+How to run: 1. Open Remix IDE and create StudentRecords.sol. 2. Paste
+the code and compile using Solidity 0.8.20 or a compatible compiler. 3.
+Deploy the contract. 4. Call addStudent(1, "Asha", 85) to add a student.
+5. Add more records if required. 6. Call getStudentCount() to see the
+number of students. 7. Call getStudent(0) to view the first record.
+Array indexing starts at 0. 8. To test Ether reception, send a test
+amount to the deployed contract using Remix.
+
+============================================================ ASSIGNMENT
+6 – HYPERLEDGER COMPOSER BUSINESS NETWORK
+============================================================
+
+Aim: Create a commodity-trading business network using Hyperledger
+Composer.
+
+The example has: - Asset: Commodity - Participant: Trader - Transaction:
+Trade
+
+A. MODEL FILE
+
+File: models/org.example.mynetwork.cto
+
+    namespace org.example.mynetwork
+
+    asset Commodity identified by tradingSymbol {
+        o String tradingSymbol
+        o String description
+        o String mainExchange
+        o Double quantity
+        --> Trader owner
+    }
+
+    participant Trader identified by tradeId {
+        o String tradeId
+        o String firstName
+        o String lastName
+    }
+
+    transaction Trade {
+        --> Commodity commodity
+        --> Trader newOwner
+    }
+
+B. TRANSACTION PROCESSOR SCRIPT
+
+File: lib/logic.js
+
+    /**
+     * Transfer a commodity from its current owner to a new owner.
+     * @param {org.example.mynetwork.Trade} trade
+     * @transaction
+     */
+    async function tradeCommodity(trade) {
+        trade.commodity.owner = trade.newOwner;
+
+        let assetRegistry = await getAssetRegistry(
+            'org.example.mynetwork.Commodity'
+        );
+
+        await assetRegistry.update(trade.commodity);
+    }
+
+Short explanation: - The model file defines the data types used in the
+business network. - Commodity is an asset because it is the item being
+tracked. - Trader is a participant because traders take part in the
+network. - Trade is a transaction because it transfers ownership. - The
+tradeCommodity() function changes the commodity’s owner to newOwner. -
+getAssetRegistry() obtains the registry that stores Commodity assets. -
+assetRegistry.update() saves the changed asset.
+
+C. SAMPLE PARTICIPANTS
+
+Create two Trader participants:
+
+Trader 1: { “$class”: “org.example.mynetwork.Trader”, “tradeId”:
+“TRADER1”, “firstName”: “Jenny”, “lastName”: “Jones” }
+
+Trader 2: { “$class”: “org.example.mynetwork.Trader”, “tradeId”:
+“TRADER2”, “firstName”: “Amy”, “lastName”: “Williams” }
+
+D. SAMPLE COMMODITY ASSET
+
+    {
+        "$class": "org.example.mynetwork.Commodity",
+        "tradingSymbol": "ABC",
+        "description": "Test commodity",
+        "mainExchange": "Euronext",
+        "quantity": 72.297,
+        "owner": "resource:org.example.mynetwork.Trader#TRADER1"
+    }
+
+E. SAMPLE TRADE TRANSACTION
+
+    {
+        "$class": "org.example.mynetwork.Trade",
+        "commodity": "resource:org.example.mynetwork.Commodity#ABC",
+        "newOwner": "resource:org.example.mynetwork.Trader#TRADER2"
+    }
+
+How to test in Composer Playground (as described in the manual): 1.
+Deploy a new business network using the empty-business-network template.
+2. Open the Define tab. 3. Add the model definitions to the .cto model
+file. 4. Add the JavaScript transaction processor to lib/logic.js. 5.
+Save the changes and update/deploy the business network as required by
+the Playground. 6. Create participants TRADER1 and TRADER2. 7. Create
+the Commodity asset ABC with TRADER1 as its owner. 8. Submit a Trade
+transaction using the sample transaction above. 9. Open the Commodity
+asset and check its owner. It should now be TRADER2.
+
+Important note: The manual uses Hyperledger Composer Playground, which
+is an older tool and may no longer be available as a supported service.
+Use the environment or setup prescribed by your instructor. The model
+and transaction code above follow the Composer format used in the
+manual.
+
+============================================================ QUICK
+REVISION ============================================================
+
+Assignment 3: - payable: permits a function to receive Ether. -
+msg.sender: address that called the function. - msg.value: Ether sent
+with the call, in wei. - mapping: stores address-to-balance data. -
+view: reads state without changing it.
+
+Assignment 4: - struct: groups related fields. - array: stores multiple
+student records. - push(): adds an item to a dynamic array. -
+fallback(): handles calls that do not match a declared function. -
+receive(): handles plain Ether transfers with empty calldata.
+
+Assignment 6: - Asset = Commodity. - Participant = Trader. - Transaction
+= Trade. - tradeCommodity() transfers ownership and updates the asset
+registry.
+
+END

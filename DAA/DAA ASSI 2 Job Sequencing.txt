@@ -1,0 +1,146 @@
+Huffman coding
+package part1;
+
+
+import java.util.PriorityQueue;
+
+class Node {
+    char ch;
+    int freq;
+    Node left, right;
+
+    Node(char ch, int freq) {
+        this.ch = ch;
+        this.freq = freq;
+        left = right = null;
+    }
+}
+
+public class Huffman {
+
+    static void printCode(Node root, String code) {
+
+        if (root == null)
+            return;
+
+        if (root.left == null && root.right == null) {
+            System.out.println(root.ch + " : " + code);
+        }
+
+        printCode(root.left, code + "0");
+        printCode(root.right, code + "1");
+    }
+
+    public static void main(String[] args) {
+
+        char[] ch = {'A', 'B', 'C', 'D', 'E', 'F'};
+        int[] freq = {5, 9, 12, 13, 16, 45};
+
+        PriorityQueue<Node> pq = new PriorityQueue<>(
+            (a, b) -> a.freq - b.freq
+        );
+
+        // Insert all characters into priority queue
+        for (int i = 0; i < ch.length; i++) {
+            pq.add(new Node(ch[i], freq[i]));
+        }
+
+        // Build Huffman Tree
+        while (pq.size() > 1) {
+
+            Node left = pq.poll();
+            Node right = pq.poll();
+
+            Node parent = new Node('-', left.freq + right.freq);
+
+            parent.left = left;
+            parent.right = right;
+
+            pq.add(parent);
+        }
+
+        Node root = pq.poll();
+
+        System.out.println("Huffman Codes:");
+
+        printCode(root, "");
+    }
+}
+
+job scheduling
+
+public class JobSequencing {
+
+    public static void main(String[] args) {
+
+        char[] job = {'A', 'B', 'C', 'D', 'E'};
+
+        int[] deadline = {2, 1, 2, 1, 3};
+
+        int[] profit = {100, 19, 27, 25, 15};
+
+        int n = job.length;
+
+        // Sort jobs according to profit (descending)
+        for (int i = 0; i < n; i++) {
+            for (int j = i + 1; j < n; j++) {
+
+                if (profit[i] < profit[j]) {
+
+                    int temp = profit[i];
+                    profit[i] = profit[j];
+                    profit[j] = temp;
+
+                    temp = deadline[i];
+                    deadline[i] = deadline[j];
+                    deadline[j] = temp;
+
+                    char t = job[i];
+                    job[i] = job[j];
+                    job[j] = t;
+                }
+            }
+        }
+
+        int maxDeadline = 0;
+
+        for (int i = 0; i < n; i++) {
+            if (deadline[i] > maxDeadline) {
+                maxDeadline = deadline[i];
+            }
+        }
+
+        char[] result = new char[maxDeadline + 1];
+
+        boolean[] slot = new boolean[maxDeadline + 1];
+
+        int totalProfit = 0;
+
+        // Schedule jobs
+        for (int i = 0; i < n; i++) {
+
+            for (int j = deadline[i]; j > 0; j--) {
+
+                if (!slot[j]) {
+
+                    slot[j] = true;
+                    result[j] = job[i];
+
+                    totalProfit += profit[i];
+
+                    break;
+                }
+            }
+        }
+
+        System.out.println("Scheduled Jobs:");
+
+        for (int i = 1; i <= maxDeadline; i++) {
+            if (slot[i]) {
+                System.out.print(result[i] + " ");
+            }
+        }
+
+        System.out.println("\nTotal Profit: " + totalProfit);
+    }
+}

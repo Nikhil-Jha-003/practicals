@@ -1,0 +1,1168 @@
+BLOCKCHAIN TECHNOLOGY LABORATORY COMPLETE EXPLANATION OF THE FIRST SIX
+ASSIGNMENTS B.E. Computer Engineering – Laboratory Practice III Subject
+Code: 410246 Based on the uploaded BT Lab Manual, Keystone School of
+Engineering
+
+============================================================ HOW TO USE
+THIS DOCUMENT
+============================================================
+
+This document explains Assignments 1 to 6 in the laboratory manual. It
+follows the order and terminology of the manual. For Assignments 3 and
+4, the manual’s text extraction does not contain all the Solidity code
+visible in screenshots, so complete illustrative Solidity examples are
+included to explain and demonstrate the stated aims. These examples are
+teaching implementations and should be compared with the code
+demonstrated by your faculty.
+
+The manual uses older tools and networks in some places, especially the
+Ropsten test network and Hyperledger Composer Playground. Treat the
+steps as the procedure documented in the manual; availability of those
+old services may have changed.
+
+============================================================ ASSIGNMENT
+1 INSTALLATION OF METAMASK AND STUDY SPENDING ETHER PER TRANSACTION
+============================================================
+
+1.  Aim To install MetaMask and study the amount of Ether spent per
+    transaction.
+
+2.  Theory
+
+MetaMask: MetaMask is a cryptocurrency wallet that allows users to
+interact with Ethereum-compatible blockchain networks through a browser
+extension or mobile application. It provides an interface for viewing
+accounts, managing wallet addresses, connecting to decentralized
+applications (dApps), and approving blockchain transactions.
+
+A wallet contains or manages the cryptographic keys used to control
+blockchain accounts. A public wallet address can be shared to receive
+assets. The secret recovery phrase and private keys must never be
+shared.
+
+Ether (ETH): Ether is the native cryptocurrency of the Ethereum network.
+It is used to pay for transactions and computation performed on the
+network.
+
+Gas: Gas is the unit used to measure the computational work required to
+execute a transaction or smart contract operation on Ethereum. A
+transaction fee is generally calculated as:
+
+Transaction Fee = Gas Used × Effective Gas Price
+
+If gas is measured in units and the gas price is expressed in ETH per
+gas unit, the product gives the fee in ETH. In practice, the wallet
+commonly displays the fee in ETH and may also show a fiat-currency
+estimate.
+
+Gas Limit: The maximum amount of gas that a user is willing to allow a
+transaction to consume. It is not necessarily the amount actually used.
+
+Gas Price / Fee: The amount paid per unit of gas. On modern Ethereum,
+the fee mechanism includes a base fee and, optionally, a priority fee.
+The wallet estimates the fee and presents it before the user confirms
+the transaction.
+
+3.  Requirements
+
+-   Chrome or another supported browser.
+-   MetaMask browser extension or official mobile application.
+-   Internet connection.
+-   A blockchain network supported by MetaMask.
+-   Test Ether when experimenting on a test network.
+
+4.  Procedure described by the manual
+5.  Visit the MetaMask website.
+6.  Select the browser extension option and install MetaMask.
+7.  Approve the browser’s Add Extension prompt.
+8.  Open MetaMask using its browser icon.
+9.  Follow the setup process to create or import a wallet.
+10. Securely store the Secret Recovery Phrase offline. Never share it
+    with anyone.
+11. Open the network selector in MetaMask.
+12. The manual’s screenshots refer to the Ropsten test network.
+13. Request test Ether from the test faucet shown in the manual.
+14. Once test funds are available, initiate a test transaction.
+15. Review the transaction details, including the estimated network fee,
+    before confirming.
+16. After confirmation, open the transaction details or block explorer
+    to inspect the transaction status, gas used and fee.
+
+Important note: Ropsten is an old Ethereum test network and has been
+retired. It may no longer appear in MetaMask or have a working faucet.
+For a present-day demonstration, use a currently supported Ethereum test
+network selected by your instructor. Do not send real ETH merely to
+complete a classroom experiment.
+
+5.  How to study Ether spent per transaction For each transaction,
+    record:
+
+-   Transaction hash: unique identifier of the transaction.
+-   From: sender address.
+-   To: receiver address or contract address.
+-   Value: amount of ETH transferred.
+-   Gas limit: maximum gas allowed.
+-   Gas used: actual gas consumed.
+-   Effective gas price: fee per gas unit.
+-   Transaction fee: actual fee paid.
+
+Example calculation: Suppose a transaction uses 21,000 gas and the
+effective gas price is 20 gwei.
+
+1 gwei = 0.000000001 ETH
+
+Fee = 21,000 × 20 gwei = 420,000 gwei = 0.00042 ETH
+
+This is only an example. Actual fees depend on the transaction and
+network conditions.
+
+6.  What happens when a transaction is confirmed?
+
+7.  The wallet prepares and signs the transaction using the account’s
+    private key.
+
+8.  The signed transaction is broadcast to the network.
+
+9.  Network nodes validate the transaction.
+
+10. A block producer includes it in a block.
+
+11. The network records the transaction and its resulting state change.
+
+12. The wallet or block explorer displays its confirmation status.
+
+13. Result / Conclusion MetaMask was studied as an Ethereum-compatible
+    wallet. A test transaction can be used to inspect gas used and the
+    Ether-denominated transaction fee. The fee depends on the
+    computational work and network fee conditions.
+
+14. Important viva questions Q1. What is MetaMask? Ans. MetaMask is a
+    wallet used to manage blockchain accounts and connect to
+    Ethereum-compatible networks and dApps.
+
+Q2. What is Ether? Ans. Ether is the native cryptocurrency of Ethereum
+and is used to pay transaction and execution fees.
+
+Q3. What is gas? Ans. Gas measures the computational work required to
+execute a transaction or smart contract operation.
+
+Q4. What is a gas limit? Ans. It is the maximum gas a user allows a
+transaction to consume.
+
+Q5. What is a transaction hash? Ans. It is a unique identifier used to
+find and track a blockchain transaction.
+
+Q6. Why are transaction fees charged? Ans. Fees compensate network
+validators for processing transactions and help allocate limited network
+resources.
+
+Q7. What is a test network? Ans. A test network is a blockchain
+environment used for development and experiments, generally using test
+tokens rather than real-value cryptocurrency.
+
+============================================================ ASSIGNMENT
+2 CREATE YOUR OWN WALLET USING METAMASK FOR CRYPTO TRANSACTIONS
+============================================================
+
+1.  Aim To create your own wallet using MetaMask for cryptocurrency
+    transactions.
+
+2.  Theory
+
+A cryptocurrency wallet is a software or hardware tool that manages the
+cryptographic keys used to access blockchain assets. The wallet does not
+literally store coins like a physical wallet. Cryptocurrency balances
+and transactions are recorded on the blockchain; the wallet manages the
+keys that authorize actions.
+
+Important wallet terms:
+
+-   Public address: An address that can be shared to receive
+    cryptocurrency.
+-   Private key: A secret cryptographic key used to authorize
+    transactions. It must remain private.
+-   Secret Recovery Phrase: A sequence of words used to recover the
+    wallet. Anyone who obtains it may gain control of the wallet.
+-   Account: A blockchain identity controlled through the wallet’s keys.
+-   Network: The blockchain on which an account interacts, such as
+    Ethereum mainnet or a test network.
+
+3.  Procedure to create a MetaMask wallet
+
+4.  Download MetaMask only from its official website or the official app
+    store listing.
+
+5.  Install the browser extension or mobile app.
+
+6.  Select the option to create a new wallet.
+
+7.  Set a strong wallet password.
+
+8.  Read the Secret Recovery Phrase instructions.
+
+9.  Write down the recovery phrase and keep it in a secure offline
+    location.
+
+10. Complete the phrase confirmation step requested by MetaMask.
+
+11. The wallet is created and an account address is displayed.
+
+12. Copy the public address when you need to receive funds.
+
+13. Select the required network before sending or receiving assets.
+
+14. Before sending cryptocurrency, carefully verify the receiver
+    address, network and amount.
+
+15. Review the estimated fee and confirm only if the details are
+    correct.
+
+16. Sending and receiving cryptocurrency
+
+To receive: 1. Open MetaMask. 2. Select the correct network and account.
+3. Copy the public wallet address or display the receive QR code. 4.
+Share only the public address with the sender. 5. Wait for the
+transaction to be broadcast and confirmed.
+
+To send: 1. Open MetaMask and select the correct network. 2. Select
+Send. 3. Enter the recipient’s public address. 4. Enter the amount. 5.
+Review the network fee and total amount. 6. Verify the address and
+network carefully. 7. Confirm the transaction. 8. Track the transaction
+using its hash or a block explorer.
+
+5.  Security precautions
+
+-   Never share the Secret Recovery Phrase or private key.
+-   MetaMask support staff should not need your recovery phrase.
+-   Do not enter the phrase on websites reached through suspicious
+    links.
+-   Verify the website address before connecting your wallet.
+-   Check the network and recipient address before confirming.
+-   Be cautious when approving token allowances or signing unfamiliar
+    messages.
+-   A transaction confirmed on a blockchain is generally difficult or
+    impossible to reverse.
+
+6.  Note about the manual’s pages The aim on page 5 is to create a
+    MetaMask wallet. The following pages also show a MetaMask faucet and
+    a Solidity LearningStrings example with setText(),
+    setTextByPassing() and getText(). That Solidity example demonstrates
+    storing and reading a string in a smart contract; it is separate
+    from the actual steps for creating a wallet. If asked in the
+    practical exam, explain the wallet creation procedure for this
+    assignment and explain the string contract only if your instructor
+    asks about the code shown in the manual.
+
+7.  Result / Conclusion A MetaMask wallet was created and its public
+    address was studied. The wallet can be used to receive and send
+    cryptocurrency on a selected compatible blockchain network.
+
+8.  Important viva questions Q1. What is a cryptocurrency wallet? Ans.
+    It is a tool that manages the keys used to access and authorize
+    transactions for blockchain assets.
+
+Q2. Does a wallet physically store cryptocurrency? Ans. No. The
+blockchain records balances and transactions; the wallet manages the
+keys.
+
+Q3. What is a public address? Ans. It is an address that can be shared
+to receive cryptocurrency.
+
+Q4. What is a private key? Ans. It is a secret key used to authorize
+transactions.
+
+Q5. What is a Secret Recovery Phrase? Ans. It is a sequence of words
+used to restore access to a wallet.
+
+Q6. Can we share the recovery phrase? Ans. No. It must remain secret.
+
+Q7. What is the difference between a public address and a private key?
+Ans. The public address can be shared, while the private key must be
+kept secret and is used to authorize transactions.
+
+============================================================ ASSIGNMENT
+3 SMART CONTRACT FOR A CUSTOMER BANK ACCOUNT
+============================================================
+
+1.  Aim Write a smart contract on a test network for a customer’s bank
+    account with the following operations:
+
+-   Deposit money.
+-   Withdraw money.
+-   Show balance.
+
+2.  Theory
+
+Smart Contract: A smart contract is a program stored and executed on a
+blockchain. It contains functions and rules that are enforced by the
+blockchain when transactions are submitted.
+
+A smart contract can automate operations without requiring a central
+intermediary to execute each programmed rule. Once deployed, its code
+and state are maintained by the blockchain according to the network’s
+rules.
+
+How a smart contract works (as described in the manual): 1. A user
+initiates a transaction from a blockchain wallet. 2. The transaction
+reaches the blockchain network. 3. Network nodes validate the
+transaction. 4. The transaction contains the information needed to
+execute the requested operation. 5. The transaction is included in a
+block. 6. The contract’s state is updated and recorded on the
+blockchain.
+
+3.  Solidity concepts used
+
+-   pragma: Specifies the Solidity compiler version range.
+-   contract: Declares a smart contract.
+-   address: Represents a blockchain address.
+-   mapping: Stores key-value data.
+-   payable: Allows a function to receive Ether.
+-   msg.sender: Address that called the function.
+-   msg.value: Amount of Ether sent with the call, measured in wei.
+-   require(): Checks a condition and reverts if the condition is false.
+-   view: Indicates a function reads state without modifying it.
+-   balance: A state variable in this example that records the user’s
+    deposited amount.
+
+4.  Illustrative Solidity code
+
+The following is a simple example for a classroom demonstration. It
+maintains a separate internal balance for each address.
+
+    // SPDX-License-Identifier: MIT
+    pragma solidity ^0.8.20;
+
+    contract BankAccount {
+        mapping(address => uint256) private balances;
+
+        // Deposit Ether into the contract's accounting balance.
+        function deposit() public payable {
+            require(msg.value > 0, "Deposit must be greater than zero");
+            balances[msg.sender] += msg.value;
+        }
+
+        // Withdraw Ether from the contract.
+        function withdraw(uint256 amount) public {
+            require(amount > 0, "Amount must be greater than zero");
+            require(balances[msg.sender] >= amount, "Insufficient balance");
+
+            balances[msg.sender] -= amount;
+
+            (bool success, ) = payable(msg.sender).call{value: amount}("");
+            require(success, "Transfer failed");
+        }
+
+        // Display the caller's recorded balance.
+        function showBalance() public view returns (uint256) {
+            return balances[msg.sender];
+        }
+    }
+
+5.  Explanation of the code
+
+pragma solidity ^0.8.20; This specifies the compiler version
+requirement. Compile the code using a compatible Solidity compiler.
+
+contract BankAccount This declares a contract named BankAccount.
+
+mapping(address => uint256) private balances; This creates a mapping
+from each user’s address to their balance in wei. Each address has a
+separate recorded balance.
+
+function deposit() public payable The payable keyword allows the
+function to receive Ether. msg.value gives the amount sent by the
+caller. The require statement rejects a zero-value deposit. The amount
+is added to the caller’s balance.
+
+function withdraw(uint256 amount) public The function accepts the
+withdrawal amount in wei. It checks that the amount is positive and that
+the caller has enough recorded balance. It then reduces the recorded
+balance and sends Ether to the caller. If the transfer fails, the
+transaction reverts.
+
+function showBalance() public view returns (uint256) This returns the
+balance recorded for the caller. The view keyword indicates that the
+function does not modify blockchain state.
+
+6.  How to test the contract
+
+7.  Open Remix IDE in a browser.
+
+8.  Create a Solidity file named BankAccount.sol.
+
+9.  Paste the code into the file.
+
+10. Select a compatible Solidity compiler version.
+
+11. Compile the contract.
+
+12. Open the Deploy & Run Transactions panel.
+
+13. For a local demonstration, select an available local VM environment,
+    or connect MetaMask to a test network if instructed.
+
+14. Deploy the contract.
+
+15. To deposit, enter an ETH value in the Value field, select the
+    appropriate unit, and call deposit().
+
+16. Call showBalance() to read the caller’s recorded balance.
+
+17. To withdraw, enter the withdrawal amount in wei and call withdraw().
+
+18. Call showBalance() again to verify the updated balance.
+
+19. Inspect the transaction details to observe gas used and transaction
+    fees.
+
+20. Important points
+
+-   The example uses wei as the smallest unit of Ether. 1 ETH = 10^18
+    wei.
+-   The displayed balance is the balance recorded in the contract’s
+    mapping, not necessarily the contract’s entire Ether balance.
+-   Deposits and withdrawals are state-changing transactions and require
+    gas.
+-   A view function can be called without sending a state-changing
+    transaction when queried locally through a wallet/interface.
+-   This is an educational example, not a production banking
+    application. Real financial applications need security reviews,
+    access controls, testing and careful handling of funds.
+
+8.  Result / Conclusion A bank-account smart contract was demonstrated
+    with deposit, withdrawal and balance-display operations on a
+    development or test blockchain environment.
+
+9.  Important viva questions Q1. What is a smart contract? Ans. It is a
+    program stored and executed on a blockchain.
+
+Q2. What is Solidity? Ans. Solidity is a programming language used to
+write smart contracts for Ethereum-compatible blockchains.
+
+Q3. What is the use of payable? Ans. It allows a function to receive
+Ether.
+
+Q4. What is msg.sender? Ans. It is the address that called the current
+function.
+
+Q5. What is msg.value? Ans. It is the amount of Ether sent with the
+current call, expressed in wei.
+
+Q6. What is mapping? Ans. It is a key-value data structure used to
+associate one value with each key.
+
+Q7. What does require() do? Ans. It checks a condition and reverts the
+transaction if the condition is false.
+
+Q8. What is the difference between view and payable? Ans. view functions
+read state without modifying it; payable functions are allowed to
+receive Ether.
+
+============================================================ ASSIGNMENT
+4 STUDENT DATA IN SOLIDITY USING STRUCTURES, ARRAYS AND FALLBACK
+============================================================
+
+1.  Aim Write a Solidity program to create student data using:
+
+-   Structures.
+-   Arrays.
+-   Fallback. Deploy the smart contract on Ethereum and observe
+    transaction fee and gas values.
+
+2.  Theory
+
+Structure: A struct is a custom data type that groups related variables
+under one name. For example, student ID, student name and marks can be
+stored together in a Student structure.
+
+Array: An array stores a collection of values of the same declared type.
+A dynamic array can grow as new elements are added.
+
+Fallback Function: A fallback function is a special function in
+Solidity. It is executed when a contract receives a call that does not
+match any declared function, or in certain cases when calldata is
+present but no function matches. A fallback function must be marked
+payable if it is intended to receive Ether.
+
+Gas: Gas measures the computational work performed by a transaction.
+Deploying a contract and changing stored data consume gas. A transaction
+fee is based on gas used and the effective gas price.
+
+3.  Illustrative Solidity code
+
+This example combines a Student structure, a dynamic array of students,
+a function to add and retrieve student records, and a payable fallback
+function.
+
+    // SPDX-License-Identifier: MIT
+    pragma solidity ^0.8.20;
+
+    contract StudentRecords {
+        struct Student {
+            uint256 rollNo;
+            string name;
+            uint256 marks;
+        }
+
+        Student[] public students;
+
+        // Add a student record.
+        function addStudent(
+            uint256 _rollNo,
+            string memory _name,
+            uint256 _marks
+        ) public {
+            students.push(Student(_rollNo, _name, _marks));
+        }
+
+        // Return the number of student records.
+        function getStudentCount() public view returns (uint256) {
+            return students.length;
+        }
+
+        // Return one student record by array index.
+        function getStudent(uint256 index)
+            public
+            view
+            returns (uint256, string memory, uint256)
+        {
+            require(index < students.length, "Invalid student index");
+
+            Student memory s = students[index];
+            return (s.rollNo, s.name, s.marks);
+        }
+
+        // Receives Ether when no declared function matches the call.
+        fallback() external payable {
+        }
+
+        // Receives Ether when the contract is sent plain ETH
+        // without calldata.
+        receive() external payable {
+        }
+    }
+
+4.  Explanation of the code
+
+struct Student Defines a custom Student type with three fields: -
+rollNo: student’s roll number. - name: student’s name. - marks:
+student’s marks.
+
+Student[] public students Declares a dynamic array that stores Student
+records. The public visibility creates an automatically generated getter
+for array elements.
+
+addStudent() Accepts a roll number, name and marks. It creates a Student
+record and appends it to the students array using push().
+
+getStudentCount() Returns the total number of student records stored in
+the array. The length property gives the number of elements.
+
+getStudent(index) Reads a student record at the given array index.
+require() checks that the index exists. The function returns the roll
+number, name and marks.
+
+fallback() This special function executes when a call does not match any
+declared function. It is payable so that it can receive Ether along with
+unmatched calls.
+
+receive() This special function handles plain Ether transfers that
+contain no calldata. It is included to make the Ether-receiving behavior
+clear. The manual specifically asks for fallback; receive is an
+additional function in this example.
+
+5.  Steps to compile and deploy
+
+6.  Open Remix IDE.
+
+7.  Create a file named StudentRecords.sol.
+
+8.  Paste the code into the file.
+
+9.  Select a Solidity compiler compatible with pragma ^0.8.20.
+
+10. Compile the contract.
+
+11. Open Deploy & Run Transactions.
+
+12. Select a local VM for a safe demonstration, or connect to the test
+    network specified by your faculty.
+
+13. Deploy StudentRecords.
+
+14. Call addStudent() with sample values, for example roll number 1,
+    name “Asha” and marks 85.
+
+15. Add another student with different details.
+
+16. Call getStudentCount() to see the number of records.
+
+17. Call getStudent(0) to view the first student record.
+
+18. If testing the payable fallback/receive behavior, send a small test
+    amount to the contract using the appropriate transaction interface.
+
+19. Open the transaction details and record gas used and transaction
+    fee.
+
+20. Observing gas and transaction fees Record these values for the
+    deployment and each state-changing operation:
+
+-   Transaction hash.
+-   Gas limit.
+-   Gas used.
+-   Effective gas price.
+-   Transaction fee.
+
+The deployment transaction usually costs more gas than a simple function
+call because it stores the contract’s bytecode on the blockchain. Adding
+a student changes blockchain state and consumes gas. Reading a view
+function generally does not require an on-chain state-changing
+transaction when called as a read operation.
+
+Example fee calculation: If gas used = 100,000 and effective gas price =
+15 gwei:
+
+Fee = 100,000 × 15 gwei = 1,500,000 gwei = 0.0015 ETH
+
+This is an example only. Actual gas and fees depend on the code,
+compiler output and network conditions.
+
+7.  Result / Conclusion A Solidity student-record contract was
+    demonstrated using a structure, dynamic array and fallback function.
+    The contract can store and retrieve student details. Deployment and
+    state-changing transactions can be inspected to observe gas usage
+    and transaction fees.
+
+8.  Important viva questions Q1. What is a structure in Solidity? Ans. A
+    structure is a user-defined type that groups related variables.
+
+Q2. What is an array? Ans. An array stores multiple values of a declared
+type.
+
+Q3. What is a dynamic array? Ans. It is an array whose length can change
+during execution.
+
+Q4. What does push() do? Ans. It appends an element to a dynamic array.
+
+Q5. What is a fallback function? Ans. It is a special function executed
+when a call does not match a declared function, subject to Solidity’s
+fallback rules.
+
+Q6. Why is payable used? Ans. It allows a function to receive Ether.
+
+Q7. What is the difference between fallback() and receive()? Ans.
+receive() handles plain Ether transfers with empty calldata. fallback()
+handles unmatched calls and can also receive Ether if it is payable.
+
+Q8. Why does deployment consume gas? Ans. The contract’s bytecode must
+be processed and stored on the blockchain.
+
+============================================================ ASSIGNMENT
+5 SURVEY REPORT ON TYPES OF BLOCKCHAINS AND THEIR REAL-TIME USE CASES
+============================================================
+
+1.  Aim Write a survey report on types of blockchains and their
+    real-time use cases.
+
+2.  Introduction / Theory
+
+Blockchain is a distributed ledger technology used to record
+transactions and information across a network. Copies of the ledger are
+maintained by participating nodes according to the network’s rules. The
+manual describes blockchain as a way to perform transactions securely
+and notes that organizations can use different blockchain arrangements
+depending on their requirements.
+
+The manual discusses permissionless and permissioned blockchains, and
+then describes four common network types: 1. Public blockchain. 2.
+Private blockchain. 3. Hybrid blockchain. 4. Consortium blockchain.
+
+3.  General advantages of blockchain (as listed in the manual)
+
+-   Greater security of data.
+-   Greater trust among users.
+-   Reduced production or operational costs in some applications.
+-   Improved speed in some workflows.
+-   Innovation and tokenization.
+-   Immutable records.
+
+4.  General disadvantages (as listed in the manual)
+
+-   Data modification is difficult once records are committed.
+-   Large databases can require substantial storage.
+-   If a user loses the private key, access to the associated assets or
+    account may be lost.
+
+5.  Permissionless blockchain
+
+Meaning: A permissionless blockchain is also known as a public or
+trustless blockchain in the manual. Anyone can participate in the
+network’s transaction-validation process, subject to the protocol’s
+requirements.
+
+Characteristics: - No single central authority controls participation. -
+The platform is generally open. - Transactions are transparent and can
+be inspected. - Tokens are commonly used.
+
+Advantages: - Broad participation. - Transparency. - Decentralized
+access. - Participants can verify transactions according to the
+protocol.
+
+Disadvantages: - Some networks can consume significant energy, depending
+on their consensus mechanism. - Scalability and transaction throughput
+can be challenging. - Public visibility may provide less privacy.
+
+6.  Permissioned blockchain
+
+Meaning: A permissioned blockchain is a restricted network in which only
+approved participants can access particular functions or validate
+transactions.
+
+Characteristics: - Access is limited to authorized participants. - The
+organization can define permissions. - It is used where privacy and
+controlled access are important.
+
+Advantages: - Often faster validation because fewer nodes participate. -
+Stronger access control. - Customizable permissions. - Can provide
+better performance for organizational workflows.
+
+Disadvantages: - It may be less decentralized. - A small number of
+participants can create concentration or corruption risks. - The
+operator may have significant control over network rules.
+
+7.  Four types of blockchain
+
+A. Public Blockchain
+
+Meaning: A public blockchain is open to the public. Anyone who meets the
+network’s technical requirements can generally read the ledger and
+participate in the network.
+
+Characteristics: - Open participation. - No single owner controls the
+entire network. - Many nodes maintain and verify ledger information. -
+Transactions can be publicly inspected.
+
+Advantages: - Transparency. - Decentralization. - Public
+verifiability. - Distributed record keeping.
+
+Disadvantages: - Transaction processing can be slower than some
+restricted networks. - Some consensus mechanisms consume substantial
+energy. - Public transaction data may reduce privacy.
+
+Use cases: - Cryptocurrency transactions. - Decentralized
+applications. - Smart contracts. - Publicly verifiable records.
+
+Examples mentioned in the manual: - Bitcoin. - Ethereum.
+
+B. Private Blockchain
+
+Meaning: A private blockchain is operated in a closed network. Only
+selected and authorized users can participate.
+
+Characteristics: - Restricted participation. - Usually managed by one
+organization. - Access is limited to authorized users. - Used for
+internal or confidential business operations.
+
+Advantages: - Higher transaction speed in many configurations. -
+Configurable network size. - Controlled access and privacy. - Useful for
+internal business processes.
+
+Disadvantages: - More centralized than public blockchains. - Trust
+depends partly on the organization operating it. - A limited number of
+nodes can create security or availability risks.
+
+Use cases: - Internal auditing. - Business asset management. -
+Organization-specific records. - Controlled enterprise workflows.
+
+Examples mentioned in the manual: - Hyperledger. - Corda.
+
+C. Hybrid Blockchain
+
+Meaning: A hybrid blockchain combines features of public and private
+blockchains. Some information or operations are restricted, while
+selected information can be made publicly visible.
+
+Characteristics: - Combines permissioned and permissionless features. -
+Organizations can control access to private information. - Smart
+contracts can manage access and interactions. - Selected transactions or
+data can be made public.
+
+Advantages: - Flexible architecture. - Can balance privacy and
+transparency. - Only selected nodes may need to validate certain
+operations. - Organizations can choose which information is public.
+
+Disadvantages: - Design and maintenance can be complex. - Transparency
+depends on what the organization chooses to expose. - A closed ecosystem
+may limit participation.
+
+Use cases: - Healthcare information workflows. - Government records. -
+Real estate. - Financial organizations that need both private and public
+information.
+
+Examples mentioned in the manual: - Ripple network and XRP token. This
+is the example stated by the manual.
+
+D. Consortium Blockchain
+
+Meaning: A consortium blockchain, also called a federated blockchain, is
+managed by multiple organizations rather than a single organization or
+the unrestricted public.
+
+Characteristics: - More than one organization participates in
+governance. - A selected group of nodes validates transactions. - Access
+can be limited to consortium members. - It is designed for collaboration
+among organizations.
+
+Advantages: - Faster validation with a limited validator group. - Shared
+governance among participating organizations. - Business data can be
+shared with authorized members. - Flexible for multi-organization
+workflows.
+
+Disadvantages: - Members may disagree about rules or decisions. -
+Governance and approval can be complex. - Compromised validator
+organizations can create risks.
+
+Use cases: - Banking and payment processing. - Supply-chain tracking. -
+Food tracking across organizations. - Inter-company business processes.
+
+Examples mentioned in the manual: - Tendermint. - Multichain.
+
+6.  Comparison table
+
+Type | Who can participate? | Control / Governance Public | General
+public | Distributed network Private | Authorized users | Usually one
+organization Hybrid | Public and restricted users |
+Organization-controlled mix Consortium | Selected member organizations|
+Multiple organizations
+
+7.  Real-world applications of blockchain listed in the manual
+
+-   Secure voting management systems.
+-   Supply-chain management.
+-   Healthcare management.
+-   Real estate.
+-   NFT marketplaces.
+-   Copyright and original-content tracking.
+-   Personal identity systems.
+-   Immutable data backup.
+-   Internet of Things (IoT).
+
+8.  Conclusion Blockchain can be designed in different ways depending on
+    transparency, privacy, governance and performance requirements.
+    Public blockchains allow broad participation, private blockchains
+    restrict access to an organization, hybrid blockchains combine
+    public and private features, and consortium blockchains are governed
+    by multiple organizations. The appropriate type depends on the
+    problem being solved.
+
+9.  Important viva questions Q1. What is blockchain? Ans. Blockchain is
+    a distributed ledger in which records are maintained across
+    participating nodes according to network rules.
+
+Q2. What is a public blockchain? Ans. It is a blockchain that is
+generally open for anyone to participate in or inspect.
+
+Q3. What is a private blockchain? Ans. It is a restricted blockchain in
+which only authorized users can participate.
+
+Q4. What is a hybrid blockchain? Ans. It combines public and private
+blockchain features.
+
+Q5. What is a consortium blockchain? Ans. It is governed by a group of
+organizations.
+
+Q6. What is a permissionless blockchain? Ans. It allows open
+participation without requiring approval from a central administrator.
+
+Q7. What is a permissioned blockchain? Ans. It restricts participation
+or validation to authorized users.
+
+Q8. Give examples of public blockchains from the manual. Ans. Bitcoin
+and Ethereum.
+
+Q9. Give examples of private blockchain platforms from the manual. Ans.
+Hyperledger and Corda.
+
+Q10. What is one use of blockchain in supply chains? Ans. It can provide
+shared records to track goods and transactions across participants.
+
+============================================================ ASSIGNMENT
+6 CREATE A BUSINESS NETWORK USING HYPERLEDGER
+============================================================
+
+1.  Aim Write a program to create a Business Network using Hyperledger.
+
+2.  Theory
+
+The manual describes creating a business network using Hyperledger
+Composer. A business network defines the business participants, assets,
+transactions and logic required for a particular business process.
+
+The example in the manual is a commodity-trading network: - Asset:
+Commodity. - Participant: Trader. - Transaction: Trade. - Business
+logic: Transfer ownership of a commodity from one trader to another.
+
+Hyperledger Composer: The manual uses Hyperledger Composer Playground to
+model, deploy and test a business network. Composer is an older
+Hyperledger development tool; its availability and support may have
+changed. Follow your faculty’s prescribed environment if the original
+Playground is unavailable.
+
+3.  Important concepts
+
+Business Network: A collection of definitions and logic describing a
+business process on a blockchain network.
+
+Asset: A thing of value that is recorded and tracked. In this
+experiment, the asset is Commodity.
+
+Participant: A person or organization that takes part in the business
+network. In this experiment, the participant is Trader.
+
+Transaction: An operation that changes the state of an asset or business
+network. In this experiment, Trade changes the owner of a commodity.
+
+Model file: Defines assets, participants, transactions and events.
+
+Script file: Contains JavaScript transaction-processor logic that runs
+when a transaction is submitted.
+
+Asset Registry: The storage interface used by Composer to create,
+retrieve and update asset instances.
+
+4.  Business network model used in the manual
+
+Namespace: org.example.mynetwork
+
+Asset: Commodity Fields: - tradingSymbol: String. - description:
+String. - mainExchange: String. - quantity: Double. - owner:
+relationship to Trader.
+
+Participant: Trader Fields: - tradeId: String. - firstName: String. -
+lastName: String.
+
+Transaction: Trade Fields: - commodity: relationship to Commodity. -
+newOwner: relationship to Trader.
+
+The model describes one Commodity asset type, one Trader participant
+type and one Trade transaction type.
+
+5.  Model file code
+
+The following is the model structure shown in the manual, formatted for
+readability:
+
+    namespace org.example.mynetwork
+
+    asset Commodity identified by tradingSymbol {
+        o String tradingSymbol
+        o String description
+        o String mainExchange
+        o Double quantity
+        --> Trader owner
+    }
+
+    participant Trader identified by tradeId {
+        o String tradeId
+        o String firstName
+        o String lastName
+    }
+
+    transaction Trade {
+        --> Commodity commodity
+        --> Trader newOwner
+    }
+
+Explanation: - namespace gives the business network a unique
+namespace. - asset Commodity declares the commodity asset. - identified
+by tradingSymbol means the trading symbol uniquely identifies each
+commodity asset. - o indicates a primitive field in the Composer
+modeling language. - –> Trader owner defines a relationship from the
+commodity to its owner. - participant Trader defines the people
+participating in the network. - identified by tradeId means each trader
+is identified by a trade ID. - transaction Trade defines the information
+needed to transfer a commodity to a new owner.
+
+6.  Transaction processor logic
+
+The manual uses JavaScript transaction logic to change the owner of a
+commodity.
+
+Readable version of the logic:
+
+    /**
+     * Track the trade of a commodity from one trader to another.
+     * @param {org.example.mynetwork.Trade} trade
+     * @transaction
+     */
+    async function tradeCommodity(trade) {
+        trade.commodity.owner = trade.newOwner;
+
+        let assetRegistry = await getAssetRegistry(
+            'org.example.mynetwork.Commodity'
+        );
+
+        await assetRegistry.update(trade.commodity);
+    }
+
+Explanation line by line: 1. The function receives a Trade transaction
+object. 2. trade.commodity refers to the commodity being transferred. 3.
+trade.newOwner refers to the trader who should become the new owner. 4.
+The statement trade.commodity.owner = trade.newOwner updates the owner
+relationship. 5. getAssetRegistry() obtains the registry for Commodity
+assets. 6. assetRegistry.update() saves the modified commodity record.
+
+The @transaction annotation identifies the function as a transaction
+processor in the Composer model.
+
+7.  Steps described in the manual
+
+A. Create a business network 1. Open Hyperledger Composer Playground. 2.
+Open the My Business Networks screen. 3. Select Deploy a new business
+network under the Web Browser heading. 4. Enter the network name
+tutorial-network. 5. Optionally enter a description. 6. Select
+empty-business-network as the template. 7. Click Deploy.
+
+B. Define the business network 1. Open the Define tab. 2. Open the Model
+file. 3. Replace the default model with the Commodity, Trader and Trade
+model shown above. 4. Add a new Script file. 5. Replace the default
+script with the tradeCommodity transaction processor. 6. Save the
+changes.
+
+C. Create participants The manual creates two Trader participants.
+
+First participant: { “$class”: “org.example.mynetwork.Trader”,
+“tradeId”: “TRADER1”, “firstName”: “Jenny”, “lastName”: “Jones” }
+
+Second participant: { “$class”: “org.example.mynetwork.Trader”,
+“tradeId”: “TRADER2”, “firstName”: “Amy”, “lastName”: “Williams” }
+
+Steps: 1. Select the Trader tab. 2. Click Create New Participant. 3.
+Enter the first participant data. 4. Click Create New. 5. Repeat the
+process for the second trader.
+
+D. Create a Commodity asset The manual uses this example:
+
+    {
+        "$class": "org.example.mynetwork.Commodity",
+        "tradingSymbol": "ABC",
+        "description": "Test commodity",
+        "mainExchange": "Euronext",
+        "quantity": 72.297,
+        "owner": "resource:org.example.mynetwork.Trader#TRADER1"
+    }
+
+Steps: 1. Select the Commodity tab under Assets. 2. Click Create New
+Asset. 3. Enter the commodity data. 4. Set the owner to the resource for
+TRADER1. 5. Create the asset.
+
+E. Submit the Trade transaction The manual uses this transaction:
+
+    {
+        "$class": "org.example.mynetwork.Trade",
+        "commodity": "resource:org.example.mynetwork.Commodity#ABC",
+        "newOwner": "resource:org.example.mynetwork.Trader#TRADER2"
+    }
+
+Steps: 1. Click Submit Transaction. 2. Select Trade as the transaction
+type. 3. Enter the transaction data. 4. Click Submit. 5. Open the
+Commodity asset and check its owner. 6. The owner should now be TRADER2
+if the transaction processor completed successfully.
+
+8.  Expected output
+
+-   A business network named tutorial-network is deployed.
+-   Two Trader participants are created: TRADER1 and TRADER2.
+-   A Commodity asset with trading symbol ABC is created.
+-   Initially, ABC belongs to TRADER1.
+-   A Trade transaction is submitted.
+-   The transaction processor changes the owner of ABC to TRADER2.
+-   The updated owner is visible in the asset registry.
+
+9.  Result / Conclusion A commodity-trading business network was modeled
+    using Hyperledger Composer. Trader participants and a Commodity
+    asset were created. A Trade transaction was submitted to transfer
+    ownership from TRADER1 to TRADER2.
+
+10. Important viva questions Q1. What is Hyperledger? Ans. Hyperledger
+    is an open-source project ecosystem for enterprise blockchain
+    technologies.
+
+Q2. What is Hyperledger Composer? Ans. It is the modeling and
+application-development tool used in the manual to define and test
+business networks.
+
+Q3. What is a business network? Ans. It defines the assets,
+participants, transactions and logic for a business process.
+
+Q4. What is an asset? Ans. An item of value tracked by the business
+network.
+
+Q5. What is a participant? Ans. A person or organization that takes part
+in the business network.
+
+Q6. What is a transaction? Ans. An operation submitted to perform a
+business action or update network state.
+
+Q7. What is the purpose of the model file? Ans. It defines the structure
+of assets, participants and transactions.
+
+Q8. What is the purpose of the script file? Ans. It contains the
+JavaScript logic that processes transactions.
+
+Q9. What does tradeCommodity() do? Ans. It changes the owner of a
+commodity to the new owner and updates the asset registry.
+
+Q10. What is an asset registry? Ans. It is the Composer interface used
+to store and update asset instances.
+
+============================================================ QUICK
+REVISION: KEY TERMS FROM ASSIGNMENTS 1–6
+============================================================
+
+MetaMask: Wallet for managing blockchain accounts and connecting to
+dApps. Ether: Native cryptocurrency of Ethereum. Gas: Unit that measures
+computational work on Ethereum. Transaction fee: Gas used multiplied by
+effective gas price. Wallet address: Public identifier used to receive
+assets. Private key: Secret key used to authorize transactions. Secret
+Recovery Phrase: Words used to recover a wallet. Smart contract: Program
+stored and executed on a blockchain. Solidity: Smart-contract
+programming language used in the examples. msg.sender: Address that
+called a Solidity function. msg.value: Ether amount sent with a function
+call, in wei. payable: Allows a function to receive Ether. mapping:
+Key-value data structure. struct: Custom type grouping related fields.
+array: Collection of elements. fallback: Special function for unmatched
+calls. Blockchain: Distributed ledger maintained by participating nodes.
+Public blockchain: Open participation and public visibility. Private
+blockchain: Restricted access for authorized participants. Hybrid
+blockchain: Combination of public and private features. Consortium
+blockchain: Blockchain governed by multiple organizations. Hyperledger
+Composer: Older tool used in the manual to model business networks.
+Asset: Valuable item tracked in a business network. Participant: Person
+or organization in a business network. Transaction: Business operation
+that can update network state.
+
+============================================================ PRACTICAL
+EXAM PREPARATION TIPS
+============================================================
+
+1.  Start every practical answer by stating the exact Aim.
+2.  Explain the important terms before describing the procedure.
+3.  For MetaMask, distinguish the public address from the private key
+    and recovery phrase.
+4.  For Ether fees, remember: Fee = Gas Used × Effective Gas Price.
+5.  For Solidity, be able to explain contract, function, mapping,
+    struct, array, payable, msg.sender, msg.value and require().
+6.  For Assignment 3, demonstrate deposit, show balance and withdraw in
+    that order.
+7.  For Assignment 4, explain how a struct is stored in an array and
+    what fallback does.
+8.  For Assignment 5, remember the four types: public, private, hybrid
+    and consortium.
+9.  For Assignment 6, remember the example: Commodity is the asset,
+    Trader is the participant and Trade is the transaction.
+10. Do not share your wallet recovery phrase or private key during a
+    demonstration.
+
+END OF DOCUMENT

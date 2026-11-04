@@ -1,0 +1,108 @@
+py --version
+py -m pip install --upgrade pip
+py -m pip install notebook
+py -m pip install pandas numpy matplotlib seaborn scikit-learn
+py -m notebook
+
+
+practical 2
+pip install pandas numpy matplotlib seaborn scikit-learn
+
+
+# Email Spam Detection using Binary Classification
+
+# 1. Import Libraries
+import pandas as pd
+import numpy as np
+import matplotlib.pyplot as plt
+import seaborn as sns
+
+from sklearn.model_selection import train_test_split
+from sklearn.feature_extraction.text import CountVectorizer
+from sklearn.naive_bayes import MultinomialNB
+from sklearn.metrics import accuracy_score, confusion_matrix, classification_report
+
+# 2. Load Dataset
+df = pd.read_csv("spam.csv", encoding="latin-1")
+
+print("First 5 Records:")
+print(df.head())
+
+# 3. Data Preprocessing
+if 'v1' in df.columns and 'v2' in df.columns:
+    df = df[['v1', 'v2']]
+    df.columns = ['Category', 'Message']
+elif 'Category' in df.columns and 'Message' in df.columns:
+    df = df[['Category', 'Message']]
+else:
+    raise ValueError("Dataset columns not found")
+
+df = df.dropna()
+df = df.drop_duplicates()
+
+df['Category'] = df['Category'].str.lower().map({
+    'ham': 0,
+    'not spam': 0,
+    'spam': 1
+})
+
+df = df.dropna()
+df['Category'] = df['Category'].astype(int)
+
+print("\nPreprocessing Completed")
+
+# 4. Display Email Count
+print("\nEmail Count:")
+print(df['Category'].value_counts())
+
+sns.countplot(x='Category', data=df)
+plt.xticks([0, 1], ['Not Spam', 'Spam'])
+plt.title("Spam and Not Spam Emails")
+plt.show()
+
+# 5. Convert Text into Numbers
+X = df['Message']
+y = df['Category']
+
+vectorizer = CountVectorizer()
+X = vectorizer.fit_transform(X)
+
+# 6. Split Dataset
+X_train, X_test, y_train, y_test = train_test_split(
+    X, y, test_size=0.2, random_state=42
+)
+
+# 7. Train Model
+model = MultinomialNB()
+model.fit(X_train, y_train)
+
+print("\nModel Trained Successfully!")
+
+# 8. Predict Output
+y_pred = model.predict(X_test)
+
+# 9. Calculate Accuracy
+print("\nAccuracy:", accuracy_score(y_test, y_pred) * 100, "%")
+
+print("\nClassification Report:")
+print(classification_report(y_test, y_pred))
+
+# 10. Confusion Matrix
+cm = confusion_matrix(y_test, y_pred)
+
+sns.heatmap(cm, annot=True, fmt='d', cmap='Blues')
+plt.xlabel("Predicted")
+plt.ylabel("Actual")
+plt.title("Confusion Matrix")
+plt.show()
+
+# 11. Test New Email
+new_email = ["Congratulations! You won a free prize. Click here now"]
+
+email_data = vectorizer.transform(new_email)
+prediction = model.predict(email_data)
+
+if prediction[0] == 1:
+    print("\nEmail Status: SPAM")
+else:
+    print("\nEmail Status: NOT SPAM")

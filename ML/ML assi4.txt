@@ -1,0 +1,105 @@
+py --version
+py -m pip install --upgrade pip
+py -m pip install notebook
+py -m pip install pandas numpy matplotlib seaborn scikit-learn
+py -m notebook
+
+pip install pandas numpy matplotlib seaborn scikit-learn
+# K-Nearest Neighbors (KNN) on Diabetes Dataset
+
+# 1. Import Libraries
+import pandas as pd
+import numpy as np
+import matplotlib.pyplot as plt
+import seaborn as sns
+
+from sklearn.model_selection import train_test_split
+from sklearn.preprocessing import StandardScaler
+from sklearn.neighbors import KNeighborsClassifier
+
+from sklearn.metrics import (
+    confusion_matrix,
+    accuracy_score,
+    precision_score,
+    recall_score
+)
+
+# 2. Load Dataset
+df = pd.read_csv("diabetes.csv")
+
+print("First 5 Records:")
+print(df.head())
+
+print("\nDataset Shape:", df.shape)
+
+# 3. Check Missing Values
+print("\nMissing Values:")
+print(df.isnull().sum())
+
+# Remove missing values
+df = df.dropna()
+
+# 4. Separate Features and Target
+X = df.drop('Outcome', axis=1)
+y = df['Outcome']
+
+# 5. Split Dataset
+X_train, X_test, y_train, y_test = train_test_split(
+    X, y, test_size=0.2, random_state=42, stratify=y
+)
+
+print("\nTraining Data:", X_train.shape)
+print("Testing Data:", X_test.shape)
+
+# 6. Normalize Data
+scaler = StandardScaler()
+
+X_train = scaler.fit_transform(X_train)
+X_test = scaler.transform(X_test)
+
+print("\nData Normalized Successfully")
+
+# 7. Create KNN Model
+knn = KNeighborsClassifier(n_neighbors=5)
+
+# 8. Train Model
+knn.fit(X_train, y_train)
+
+print("\nModel Trained Successfully")
+
+# 9. Predict Output
+y_pred = knn.predict(X_test)
+
+# 10. Confusion Matrix
+cm = confusion_matrix(y_test, y_pred)
+
+print("\nConfusion Matrix:")
+print(cm)
+
+sns.heatmap(cm, annot=True, fmt='d', cmap='Blues')
+plt.xlabel("Predicted")
+plt.ylabel("Actual")
+plt.title("Confusion Matrix")
+plt.show()
+
+# 11. Calculate Accuracy
+accuracy = accuracy_score(y_test, y_pred)
+
+print("\nAccuracy:", accuracy * 100, "%")
+
+# 12. Calculate Error Rate
+error_rate = 1 - accuracy
+
+print("Error Rate:", error_rate * 100, "%")
+
+# 13. Calculate Precision
+precision = precision_score(y_test, y_pred, zero_division=0)
+
+print("Precision:", precision)
+
+# 14. Calculate Recall
+recall = recall_score(y_test, y_pred, zero_division=0)
+
+print("Recall:", recall)
+
+print("\nKNN Classification Completed Successfully!")

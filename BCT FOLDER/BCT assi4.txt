@@ -1,0 +1,91 @@
+# SURVEY REPORT
+## Types of Blockchains and Their Real-Time Use Cases
+
+### 1. Introduction
+Blockchain is a digital technology used to store information securely. It stores data in blocks that are connected to each other. Once data is added, it is very difficult to change or delete it.
+
+Blockchain is mainly used for secure transactions, data sharing, cryptocurrency and many other applications.
+
+### 2. Types of Blockchain
+
+There are mainly four types of blockchains:
+
+**1. Public Blockchain**
+- It is open to everyone.
+- Anyone can join and make transactions.
+- It provides transparency and security.
+- Examples: Bitcoin and Ethereum.
+
+**2. Private Blockchain**
+- It is controlled by a single organization.
+- Only authorized people can access it.
+- It provides privacy and better control.
+- Examples: Hyperledger Fabric-based private networks.
+
+**3. Consortium Blockchain**
+- It is managed by a group of organizations.
+- Only selected members can access it.
+- It is useful for sharing data between organizations.
+- Example: R3 Corda-based consortium networks.
+
+**4. Hybrid Blockchain**
+- It combines public and private blockchain features.
+- Some data is public, while some data is private.
+- It provides both privacy and transparency.
+- Example: Dragonchain.
+
+### 3. Real-Time Use Cases of Blockchain
+
+**1. Banking and Finance**
+- Used to transfer money securely.
+- Helps in fast international payments.
+- Reduces the need for middlemen.
+
+**2. Healthcare**
+- Stores patient medical records securely.
+- Helps hospitals share patient information.
+- Protects important medical data.
+
+**3. Supply Chain Management**
+- Tracks products from manufacturer to customer.
+- Helps identify fake products.
+- Improves transparency in product delivery.
+
+**4. Voting System**
+- Helps create secure digital voting systems.
+- Makes voting records transparent.
+- Reduces the possibility of changing recorded votes.
+
+**5. Education**
+- Stores student certificates digitally.
+- Helps verify certificates.
+- Reduces fake educational documents.
+
+**6. Real Estate**
+- Maintains property ownership records.
+- Helps in secure property transactions.
+- Reduces paperwork and fraud.
+
+### 4. Advantages of Blockchain
+1. Provides high security.
+2. Increases transparency.
+3. Reduces fraud.
+4. Provides data accuracy.
+5. Reduces middlemen.
+6. Makes transactions easier to track.
+
+### 5. Disadvantages of Blockchain
+1. Some blockchain networks consume high energy.
+2. Transaction fees can be high.
+3. Implementation can be costly.
+4. Requires technical knowledge.
+5. Some networks have limited transaction speed.
+
+### 6. Conclusion
+Blockchain is an important modern technology that provides security, transparency and trust. There are four main types of blockchain: Public, Private, Consortium and Hybrid. Blockchain is used in banking, healthcare, education, voting and supply chain management. It has the potential to improve many industries in the future.
+
+### 7. References
+1. https://bitcoin.org/
+2. https://ethereum.org/
+3. https://www.ibm.com/think/topics/blockchain
+4. https://hyperledger-fabric.readthedocs.io/

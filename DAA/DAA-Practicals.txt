@@ -1,0 +1,636 @@
+Assignment 1: Fibonacci Series (Recursive and Non-Recursive)
+DAA – Assignment 1
+Aim: Write a recursive and non-recursive program to calculate Fibonacci numbers and analyze their time and space complexity.
+1. Theory
+The Fibonacci series is a sequence in which each number is the sum of the previous two numbers.
+
+The formula is:
+\[
+F(n)=F(n-1)+F(n-2)
+\]
+
+Starting values:
+- F(0) = 0
+- F(1) = 1
+Example: 0, 1, 1, 2, 3, 5, 8, 13, 21
+
+Two approaches:
+- Recursive: A function calls itself to calculate Fibonacci numbers.
+- Non-recursive: Uses a loop to calculate Fibonacci numbers.
+2. Java Program
+Fibonacci.java
+
+import java.util.Scanner;
+
+public class Fibonacci {
+
+    // Recursive method
+    static int fibonacciRecursive(int n) {
+        if (n <= 1) {
+            return n;
+        }
+
+        return fibonacciRecursive(n - 1)
+             + fibonacciRecursive(n - 2);
+    }
+
+    // Non-recursive method
+    static void fibonacciIterative(int n) {
+        int first = 0, second = 1;
+
+        for (int i = 0; i < n; i++) {
+            System.out.print(first + " ");
+
+            int next = first + second;
+            first = second;
+            second = next;
+        }
+    }
+
+    public static void main(String[] args) {
+        Scanner sc = new Scanner(System.in);
+
+        System.out.print("Enter number of terms: ");
+        int n = sc.nextInt();
+
+        System.out.println("\nRecursive Fibonacci:");
+        for (int i = 0; i < n; i++) {
+            System.out.print(fibonacciRecursive(i) + " ");
+        }
+
+        System.out.println("\n\nNon-Recursive Fibonacci:");
+        fibonacciIterative(n);
+
+        sc.close();
+    }
+}
+
+
+
+3. Sample Output
+Enter number of terms: 7
+
+Recursive Fibonacci:
+0 1 1 2 3 5 8
+
+Non-Recursive Fibonacci:
+0 1 1 2 3 5 8
+
+
+4. Complexity
+Approach	Time Complexity	Space Complexity
+Recursive	O(2ⁿ)	O(n)
+Non-recursive	O(n)	O(1)
+
+Conclusion: Fibonacci series is implemented using both recursive and iterative approaches.
+
+Assignment 2: Huffman Encoding Using Greedy Strategy
+DAA – Assignment 2
+1. Theory
+Huffman Encoding is a lossless data compression technique.
+
+It assigns shorter binary codes to frequently occurring characters and longer codes to less frequent characters.
+
+Example:
+
+Suppose we have:
+Character	Frequency
+A	5
+B	9
+C	12
+D	13
+
+The algorithm repeatedly combines the two nodes having the smallest frequencies until a single Huffman tree is formed.
+
+Greedy approach: Always select the two minimum-frequency nodes.
+2. Java Program
+HuffmanCoding.java
+
+import java.util.*;
+
+class Node {
+    char ch;
+    int freq;
+    Node left, right;
+
+    Node(char ch, int freq) {
+        this.ch = ch;
+        this.freq = freq;
+    }
+}
+
+public class HuffmanCoding {
+
+    static void printCodes(Node root, String code) {
+        if (root == null) return;
+
+        if (root.left == null && root.right == null) {
+            System.out.println(root.ch + " : " + code);
+            return;
+        }
+
+        printCodes(root.left, code + "0");
+        printCodes(root.right, code + "1");
+    }
+
+    public static void main(String[] args) {
+
+        char[] chars = {'A', 'B', 'C', 'D', 'E', 'F'};
+        int[] freq = {5, 9, 12, 13, 16, 45};
+
+        PriorityQueue<Node> pq = new PriorityQueue<>(
+            Comparator.comparingInt(node -> node.freq)
+        );
+
+        for (int i = 0; i < chars.length; i++) {
+            pq.add(new Node(chars[i], freq[i]));
+        }
+
+        while (pq.size() > 1) {
+
+            Node left = pq.poll();
+            Node right = pq.poll();
+
+            Node parent = new Node(
+                '\0', left.freq + right.freq
+            );
+
+            parent.left = left;
+            parent.right = right;
+
+            pq.add(parent);
+        }
+
+        Node root = pq.poll();
+
+        System.out.println("Huffman Codes:");
+        printCodes(root, "");
+    }
+}
+
+
+
+3. Sample Output
+Huffman Codes:
+F : 0
+C : 100
+D : 101
+A : 1100
+B : 1101
+E : 111
+
+
+Note: Equivalent Huffman trees may produce different valid codes.
+4. Complexity
+- Time Complexity: O(n log n)
+- Space Complexity: O(n)
+Conclusion: Huffman Encoding is implemented using a greedy strategy to generate variable-length binary codes.
+
+Assignment 3: Fractional Knapsack Using Greedy Method
+DAA – Assignment 3
+1. Theory
+The Fractional Knapsack problem is an optimization problem in which we select items to maximize profit within a given weight capacity.
+
+Unlike 0/1 Knapsack, we can take a fraction of an item.
+
+Greedy strategy: Select items according to the highest profit-to-weight ratio.
+\[
+Ratio=\frac{Profit}{Weight}
+\]
+
+Example:
+Item	Profit	Weight
+1	60	10
+2	100	20
+3	120	30
+
+Knapsack capacity = 50.
+2. Java Program
+FractionalKnapsack.java
+
+import java.util.*;
+
+class Item {
+    int profit, weight;
+    double ratio;
+
+    Item(int profit, int weight) {
+        this.profit = profit;
+        this.weight = weight;
+        this.ratio = (double) profit / weight;
+    }
+}
+
+public class FractionalKnapsack {
+
+    public static void main(String[] args) {
+
+        Item[] items = {
+            new Item(60, 10),
+            new Item(100, 20),
+            new Item(120, 30)
+        };
+
+        int capacity = 50;
+        double totalProfit = 0;
+
+        Arrays.sort(items,
+            (a, b) -> Double.compare(b.ratio, a.ratio));
+
+        for (Item item : items) {
+
+            if (capacity == 0) break;
+
+            if (item.weight <= capacity) {
+                capacity -= item.weight;
+                totalProfit += item.profit;
+            } else {
+                double fraction =
+                    (double) capacity / item.weight;
+
+                totalProfit += item.profit * fraction;
+                capacity = 0;
+            }
+        }
+
+        System.out.println(
+            "Maximum Profit: " + totalProfit
+        );
+    }
+}
+
+
+
+3. Sample Output
+Maximum Profit: 240.0
+
+
+4. Complexity
+- Time Complexity: O(n log n)
+- Auxiliary Space: O(n) for storing items.
+Conclusion: The Fractional Knapsack problem is solved using the greedy method by selecting items with the highest profit-to-weight ratio first.
+
+Assignment 4: 0/1 Knapsack Using Dynamic Programming
+DAA – Assignment 4
+1. Theory
+The 0/1 Knapsack problem is an optimization problem in which each item can either be selected completely or rejected.
+
+We cannot take fractions of items.
+
+The objective is to maximize total profit without exceeding the given capacity.
+
+Dynamic Programming: We solve smaller subproblems and store their results to avoid repeated calculations.
+
+Formula:
+\[
+K[i][w]=\max(K[i-1][w],p_i+K[i-1][w-w_i])
+\]
+
+If the item's weight exceeds the current capacity, we exclude it.
+2. Java Program
+Knapsack01.java
+
+public class Knapsack01 {
+
+    static int knapsack(int[] weight, int[] profit,
+                        int capacity, int n) {
+
+        int[][] dp = new int[n + 1][capacity + 1];
+
+        for (int i = 0; i <= n; i++) {
+            for (int w = 0; w <= capacity; w++) {
+
+                if (i == 0 || w == 0) {
+                    dp[i][w] = 0;
+                }
+
+                else if (weight[i - 1] <= w) {
+
+                    dp[i][w] = Math.max(
+                        profit[i - 1] +
+                        dp[i - 1][w - weight[i - 1]],
+
+                        dp[i - 1][w]
+                    );
+
+                } else {
+                    dp[i][w] = dp[i - 1][w];
+                }
+            }
+        }
+
+        return dp[n][capacity];
+    }
+
+    public static void main(String[] args) {
+
+        int[] profit = {60, 100, 120};
+        int[] weight = {10, 20, 30};
+
+        int capacity = 50;
+
+        int n = profit.length;
+
+        int result = knapsack(
+            weight, profit, capacity, n
+        );
+
+        System.out.println(
+            "Maximum Profit: " + result
+        );
+    }
+}
+
+
+
+3. Sample Output
+Maximum Profit: 220
+
+
+4. Complexity
+- Time Complexity: O(n × W)
+- Space Complexity: O(n × W)
+Here, n = number of items and W = knapsack capacity.
+
+Conclusion: The 0/1 Knapsack problem is solved using dynamic programming to obtain maximum profit.
+
+Assignment 5: N-Queens Problem Using Backtracking
+DAA – Assignment 5
+1. Theory
+The N-Queens problem involves placing N queens on an N × N chessboard so that no two queens attack each other.
+
+A queen can attack:
+- Horizontally.
+- Vertically.
+- Diagonally.
+Backtracking: We place a queen in a safe position. If no valid position is available later, we go back and change the previous placement.
+2. Java Program
+NQueens.java
+
+public class NQueens {
+
+    static int N = 4;
+
+    static boolean isSafe(int[][] board, int row,
+                          int col) {
+
+        // Check left side of current row
+        for (int j = 0; j < col; j++) {
+            if (board[row][j] == 1)
+                return false;
+        }
+
+        // Check upper-left diagonal
+        for (int i = row, j = col;
+             i >= 0 && j >= 0; i--, j--) {
+
+            if (board[i][j] == 1)
+                return false;
+        }
+
+        // Check lower-left diagonal
+        for (int i = row, j = col;
+             i < N && j >= 0; i++, j--) {
+
+            if (board[i][j] == 1)
+                return false;
+        }
+
+        return true;
+    }
+
+    static boolean solve(int[][] board, int col) {
+
+        if (col >= N)
+            return true;
+
+        for (int i = 0; i < N; i++) {
+
+            if (isSafe(board, i, col)) {
+
+                board[i][col] = 1;
+
+                if (solve(board, col + 1))
+                    return true;
+
+                // Backtracking
+                board[i][col] = 0;
+            }
+        }
+
+        return false;
+    }
+
+    public static void main(String[] args) {
+
+        int[][] board = new int[N][N];
+
+        if (solve(board, 0)) {
+
+            System.out.println("Solution:");
+
+            for (int i = 0; i < N; i++) {
+                for (int j = 0; j < N; j++) {
+                    System.out.print(board[i][j] + " ");
+                }
+                System.out.println();
+            }
+
+        } else {
+            System.out.println("No solution exists.");
+        }
+    }
+}
+
+
+
+3. Sample Output
+Solution:
+0 0 1 0
+1 0 0 0
+0 0 0 1
+0 1 0 0
+
+
+Here:
+- 1 represents a queen.
+- 0 represents an empty position.
+4. Complexity
+- Time Complexity: O(N!)
+- Auxiliary Space Complexity: O(N²) for the board, plus O(N) recursion stack.
+Conclusion: The N-Queens problem is solved using backtracking by placing queens in safe positions.
+
+Assignment 6: Quick Sort – Deterministic and Randomized
+DAA – Assignment 6
+1. Theory
+Quick Sort is a divide-and-conquer sorting algorithm.
+
+It works in three main steps:
+1. Select a pivot element.
+2. Partition the array so smaller elements are placed before the pivot and larger elements after it.
+3. Recursively sort both partitions.
+Two types:
+- Deterministic Quick Sort: Selects a fixed pivot, such as the last element.
+- Randomized Quick Sort: Selects a random pivot to reduce the chances of consistently getting unbalanced partitions.
+2. Java Program
+QuickSort.java
+
+import java.util.Arrays;
+import java.util.Random;
+
+public class QuickSort {
+
+    static Random random = new Random();
+
+    // Swap two elements
+    static void swap(int[] arr, int i, int j) {
+        int temp = arr[i];
+        arr[i] = arr[j];
+        arr[j] = temp;
+    }
+
+    // Deterministic partition
+    static int partition(int[] arr, int low, int high) {
+
+        int pivot = arr[high];
+        int i = low - 1;
+
+        for (int j = low; j < high; j++) {
+
+            if (arr[j] <= pivot) {
+                i++;
+                swap(arr, i, j);
+            }
+        }
+
+        swap(arr, i + 1, high);
+
+        return i + 1;
+    }
+
+    // Deterministic Quick Sort
+    static void deterministicQuickSort(
+            int[] arr, int low, int high) {
+
+        if (low < high) {
+
+            int p = partition(arr, low, high);
+
+            deterministicQuickSort(arr, low, p - 1);
+            deterministicQuickSort(arr, p + 1, high);
+        }
+    }
+
+    // Randomized partition
+    static int randomizedPartition(
+            int[] arr, int low, int high) {
+
+        int randomIndex =
+            low + random.nextInt(high - low + 1);
+
+        swap(arr, randomIndex, high);
+
+        return partition(arr, low, high);
+    }
+
+    // Randomized Quick Sort
+    static void randomizedQuickSort(
+            int[] arr, int low, int high) {
+
+        if (low < high) {
+
+            int p = randomizedPartition(arr, low, high);
+
+            randomizedQuickSort(arr, low, p - 1);
+            randomizedQuickSort(arr, p + 1, high);
+        }
+    }
+
+    public static void main(String[] args) {
+
+        int[] arr1 = {45, 12, 78, 34, 23, 89, 10};
+        int[] arr2 = arr1.clone();
+
+        deterministicQuickSort(
+            arr1, 0, arr1.length - 1
+        );
+
+        randomizedQuickSort(
+            arr2, 0, arr2.length - 1
+        );
+
+        System.out.println("Deterministic Quick Sort:");
+        System.out.println(Arrays.toString(arr1));
+
+        System.out.println("Randomized Quick Sort:");
+        System.out.println(Arrays.toString(arr2));
+    }
+}
+
+
+
+3. Sample Output
+Deterministic Quick Sort:
+[10, 12, 23, 34, 45, 78, 89]
+
+Randomized Quick Sort:
+[10, 12, 23, 34, 45, 78, 89]
+
+
+4. Complexity
+Case	Time Complexity
+Best	O(n log n)
+Average	O(n log n)
+Worst	O(n²)
+
+Auxiliary Space: O(log n) on average for recursion; O(n) in the worst case.
+
+Conclusion: Deterministic and randomized Quick Sort are implemented and compared using different pivot-selection strategies.
+
+Quick Revision – All 6 Practicals
+Assignment	Algorithm	Technique
+1	Fibonacci	Recursion / Iteration
+2	Huffman Encoding	Greedy
+3	Fractional Knapsack	Greedy
+4	0/1 Knapsack	Dynamic Programming
+5	N-Queens	Backtracking
+6	Quick Sort	Divide and Conquer
+
+Important DAA Viva Questions
+Question	Answer
+What is DAA?	Design and Analysis of Algorithms.
+What is an algorithm?	A finite sequence of steps to solve a problem.
+What is time complexity?	Amount of time an algorithm takes relative to input size.
+What is space complexity?	Amount of memory used by an algorithm.
+What is recursion?	A function calling itself.
+What is a greedy algorithm?	An algorithm that makes the locally optimal choice at each step.
+What is dynamic programming?	Solving problems by storing results of overlapping subproblems.
+What is backtracking?	Trying possible solutions and reversing choices when they fail.
+What is a pivot?	An element used to partition an array in Quick Sort.
+What is divide and conquer?	Breaking a problem into smaller subproblems and combining their solutions.
+
+--------------------------------------------------------------------------------------------------------------------------
+1. Fibonacci Series Using Recursive and Non-Recursive Methods
+Theory:
+
+The Fibonacci series is a sequence of numbers in which each number is obtained by adding the previous two numbers. The series starts with 0 and 1, and continues as 0, 1, 1, 2, 3, 5, 8, 13, and so on. Mathematically, it is represented as F(n) = F(n-1) + F(n-2). There are two methods to calculate Fibonacci numbers. In the recursive method, a function calls itself repeatedly until it reaches the base conditions, which are F(0) = 0 and F(1) = 1. In the non-recursive method, a loop is used to calculate the next number using the previous two numbers. The recursive method has exponential time complexity of O(2ⁿ), whereas the non-recursive method has O(n) time complexity.
+2. Huffman Encoding Using Greedy Strategy
+Theory:
+
+Huffman Encoding is a lossless data compression technique used to reduce the size of data without losing any information. It assigns variable-length binary codes to characters based on their frequency of occurrence. Characters that occur more frequently receive shorter codes, while characters that occur less frequently receive longer codes. It uses a greedy strategy in which the two nodes having the minimum frequencies are selected and combined to form a new node. This process continues until a single Huffman tree is created. The binary codes are generated by traversing the tree, where the left branch represents 0 and the right branch represents 1. Huffman Encoding is commonly used in file compression and data transmission. Its time complexity is O(n log n).
+3. Fractional Knapsack Using Greedy Method
+Theory:
+
+The Fractional Knapsack problem is an optimization problem in which we have a collection of items, each having a particular weight and profit, and a knapsack with limited capacity. The objective is to maximize the total profit without exceeding the capacity of the knapsack. In this problem, we can select an entire item or a fraction of an item. The greedy method is used to solve this problem by calculating the profit-to-weight ratio of every item. Items having the highest ratio are selected first because they provide maximum profit for the given weight. If the remaining capacity is insufficient to hold an entire item, a fraction of that item is selected. The average time complexity is O(n log n), mainly due to sorting the items according to their ratios.
+4. 0/1 Knapsack Using Dynamic Programming
+Theory:
+
+The 0/1 Knapsack problem is an optimization problem in which we are given a set of items, each having a specific weight and profit, along with a knapsack of limited capacity. The objective is to select items in such a way that the total profit is maximized without exceeding the capacity. Unlike the Fractional Knapsack problem, an item can either be selected completely or rejected. We cannot select a fraction of an item. Dynamic Programming is used to solve this problem by dividing it into smaller subproblems and storing their results in a table to avoid repeated calculations. For every item, we check whether including it gives more profit than excluding it. The solution is obtained by selecting the maximum possible profit. Its time and space complexity are O(n × W), where n is the number of items and W is the knapsack capacity.
+5. N-Queens Problem Using Backtracking
+Theory:
+
+The N-Queens problem is a classical problem in computer science in which N queens must be placed on an N × N chessboard so that no two queens attack each other. A queen can attack another queen horizontally, vertically, or diagonally. Backtracking is used to find a valid arrangement of queens. The algorithm starts by placing a queen in the first column and checks whether the position is safe. If a safe position is found, the algorithm moves to the next column and places another queen. If no safe position is available, it removes the previously placed queen and tries another position. This process continues until all queens are placed successfully or all possible arrangements are explored. The worst-case time complexity is O(N!), and the board requires O(N²) space.
+6. Quick Sort Using Deterministic and Randomized Methods
+Theory:
+
+Quick Sort is an efficient sorting algorithm based on the Divide and Conquer technique. It works by selecting an element called the pivot and dividing the array into two parts. Elements smaller than or equal to the pivot are placed on one side, while larger elements are placed on the other side. The same process is repeated recursively for both parts until the entire array is sorted. There are two approaches to selecting the pivot. In deterministic Quick Sort, the pivot is selected using a fixed rule, such as choosing the last element of the array. In randomized Quick Sort, the pivot is selected randomly from the array to reduce the chances of repeatedly creating unbalanced partitions. The average time complexity of Quick Sort is O(n log n), while its worst-case time complexity is O(n²).

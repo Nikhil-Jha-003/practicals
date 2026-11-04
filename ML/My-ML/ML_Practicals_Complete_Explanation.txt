@@ -1,0 +1,937 @@
+MACHINE LEARNING PRACTICALS COMPLETE PROJECT AND CODE EXPLANATION Based
+on the practical topics and datasets supplied for this work
+
+======================================================================
+CONTENTS
+======================================================================
+
+1.  General introduction to the practical set
+2.  Software requirements and how to run the programs
+3.  Practical 1 - Uber Ride Fare Prediction
+4.  Practical 2 - Email Spam Detection using KNN and SVM
+5.  Practical 3 - Gradient Descent
+6.  Practical 4 - Bank Customer Churn Prediction using a Neural Network
+7.  Practical 5 - Diabetes Prediction using K-Nearest Neighbors
+8.  Common machine-learning terms used in the programs
+9.  Troubleshooting
+10. Quick practical/viva revision questions
+
+====================================================================== 1.
+GENERAL INTRODUCTION
+======================================================================
+
+This practical set demonstrates different stages and methods used in
+machine learning. The programs cover both regression and classification.
+
+The five topics are:
+
+1.  Uber ride fare prediction: Predict a continuous numerical value (the
+    fare) using ride information. The code compares Linear Regression
+    and Random Forest Regression.
+
+2.  Email spam detection: Classify an email as spam or not spam. The
+    code compares K-Nearest Neighbors (KNN) and Support Vector Machine
+    (SVM).
+
+3.  Gradient Descent: Demonstrate how an optimization algorithm updates
+    a parameter repeatedly to reduce a mathematical function’s value.
+
+4.  Bank customer churn prediction: Predict whether a bank customer will
+    leave the bank. The code uses a feed-forward neural network.
+
+5.  Diabetes prediction: Classify a record as diabetic or non-diabetic
+    using KNN.
+
+The general machine-learning workflow is:
+
+1.  Import the required libraries.
+2.  Load the dataset.
+3.  Understand the rows, columns and target variable.
+4.  Clean missing, duplicate or invalid data.
+5.  Prepare input features and output/target.
+6.  Divide the data into training and testing sets.
+7.  Scale or encode data when required.
+8.  Train the machine-learning model.
+9.  Predict values/classes for unseen test data.
+10. Evaluate the model using suitable metrics.
+11. Display useful graphs and interpret the results.
+
+Important: The programs use the CSV files supplied for this work. The
+results printed when the programs run depend on the actual dataset and
+installed package versions. Do not copy an assumed accuracy value; use
+the value printed by your own run.
+
+======================================================================
+2. SOFTWARE REQUIREMENTS AND HOW TO RUN
+======================================================================
+
+Required software: - Python 3 - Jupyter Notebook OR a Python editor such
+as VS Code - A terminal/command prompt - The supplied CSV datasets
+
+Required Python packages: - pandas - numpy - matplotlib - seaborn -
+scikit-learn - tensorflow (required for the neural-network practical)
+
+Install packages using:
+
+    python -m pip install --upgrade pip
+    python -m pip install pandas numpy matplotlib seaborn scikit-learn tensorflow
+
+If the command “python” is not recognized on Windows, try:
+
+    py -m pip install pandas numpy matplotlib seaborn scikit-learn tensorflow
+
+To run a script:
+
+    python filename.py
+
+or:
+
+    py filename.py
+
+CSV FILE PLACEMENT Keep each CSV in the same folder as its matching
+Python script, or provide the full path to the CSV in pd.read_csv().
+
+Expected filenames used in the code: - Uber: uber.csv - Email:
+emails.csv - Bank churn: Churn_Modelling.csv - Diabetes: diabetes.csv
+
+If your downloaded filenames contain suffixes such as “(1)”, either
+rename the file to the expected name or change the filename inside
+pd.read_csv(). For example:
+
+    df = pd.read_csv("diabetes(1).csv")
+
+JUPYTER NOTEBOOK If using Jupyter: 1. Open a terminal in the project
+folder. 2. Start Jupyter with: jupyter notebook 3. Open a new Python
+notebook or open your saved notebook. 4. Run the code cells from top to
+bottom. 5. Keep the CSV files in the notebook’s working directory.
+
+======================================================================
+3. PRACTICAL 1 - UBER RIDE FARE PREDICTION
+======================================================================
+
+A. AIM To predict the fare amount of an Uber ride using ride-related
+information and compare Linear Regression with Random Forest Regression.
+
+B. PROBLEM STATEMENT The fare of a ride can be affected by the distance
+travelled, number of passengers and time of pickup. A machine-learning
+regression model learns the relationship between these input features
+and the known fare amount. After training, the model predicts a fare for
+a new ride.
+
+C. DATASET File used: uber.csv
+
+The fare-prediction dataset is expected to contain columns similar to: -
+fare_amount: actual ride fare; this is the target variable. -
+pickup_datetime: date and time when the ride started. - pickup_longitude
+and pickup_latitude: pickup coordinates. - dropoff_longitude and
+dropoff_latitude: drop-off coordinates. - passenger_count: number of
+passengers. - Unnamed: 0 and key: identifier-like columns that are not
+used as features.
+
+The code checks that the required columns exist. If they do not exist,
+it stops and displays which columns are missing. This is intentional: a
+different Uber trip-log dataset without fare_amount and coordinates
+cannot be used to train this fare-prediction model.
+
+D. LIBRARIES - pandas: loads and manipulates the CSV data. - numpy:
+numerical calculations, radians, sine, cosine and square root. -
+matplotlib: displays plots. - seaborn: creates statistical plots and a
+correlation heatmap. - train_test_split: divides data into training and
+testing sets. - StandardScaler: standardizes features for Linear
+Regression. - Pipeline: combines scaling and model training safely. -
+LinearRegression: regression model based on a linear relationship. -
+RandomForestRegressor: ensemble regression model using multiple trees. -
+mean_absolute_error, mean_squared_error, r2_score: evaluate predictions.
+
+E. EXPLANATION OF THE CODE
+
+Step 1 - Import libraries The program imports pandas, numpy, matplotlib,
+seaborn and the required scikit-learn classes and metrics. This makes
+data handling, plotting, model training and evaluation possible.
+
+Step 2 - Load the CSV df = pd.read_csv(“uber.csv”)
+
+The CSV is loaded into a pandas DataFrame named df. head() displays the
+first five records. shape displays the number of rows and columns.
+
+Step 3 - Remove unnecessary columns and duplicate/missing records The
+code drops Unnamed: 0 and key because they are identifiers and are not
+used as meaningful ride-prediction inputs. drop_duplicates() removes
+repeated rows. dropna(subset=required) removes rows missing essential
+fields.
+
+Step 4 - Convert data types pickup_datetime is converted to a datetime
+value. The fare, coordinates and passenger count columns are converted
+to numeric. Invalid conversions become missing values and are removed.
+
+Step 5 - Remove invalid records The code keeps: - fares greater than
+zero and no more than the selected upper safety limit; - passenger
+counts from 1 through 6; - valid latitude and longitude ranges.
+
+This removes impossible or clearly invalid records before training.
+
+Step 6 - Detect fare outliers using IQR The Interquartile Range is:
+
+    IQR = Q3 - Q1
+
+Q1 is the 25th percentile and Q3 is the 75th percentile. The usual lower
+and upper outlier boundaries are:
+
+    Lower limit = Q1 - 1.5 * IQR
+    Upper limit = Q3 + 1.5 * IQR
+
+The code counts values outside these limits and removes them. A boxplot
+is displayed to inspect fare distribution/outliers.
+
+Step 7 - Extract time features The original pickup datetime is converted
+into: - hour: hour of the day; - day_of_week: day of the week; - month:
+month number.
+
+These numerical values may help the model learn time-related fare
+patterns.
+
+Step 8 - Calculate trip distance using Haversine formula The pickup and
+drop-off latitude/longitude values are used to calculate great-circle
+distance over the Earth’s surface.
+
+The Haversine formula uses trigonometric functions and Earth’s
+approximate radius (6371 km). The resulting distance is stored as
+distance_km.
+
+The program removes zero-distance and unusually long trips according to
+the limits set in the code.
+
+Step 9 - Visualize and inspect data A boxplot displays the fare
+distribution. A correlation heatmap shows pairwise linear correlations
+among selected numeric variables. Correlation is an association measure;
+it does not prove that one variable causes another.
+
+Step 10 - Select features and target Input features X: - distance_km -
+passenger_count - hour - day_of_week - month
+
+Target y: - fare_amount
+
+The model learns to map X to y.
+
+Step 11 - Split the dataset train_test_split uses 80 percent of records
+for training and 20 percent for testing. random_state=42 makes the split
+reproducible.
+
+Step 12 - Train Linear Regression Linear Regression learns coefficients
+for a linear equation of the form:
+
+    predicted fare = b0 + b1*x1 + b2*x2 + ... + bn*xn
+
+StandardScaler standardizes the input features. Pipeline ensures the
+scaler is fitted on training data and then applied to test data
+consistently.
+
+Step 13 - Train Random Forest Regression Random Forest creates many
+decision trees using samples/features and combines their predictions. It
+can learn non-linear patterns that a simple linear model may not
+capture.
+
+Step 14 - Evaluate both models MAE - Mean Absolute Error: Average
+absolute difference between actual and predicted fares. Lower is better.
+
+MSE - Mean Squared Error: Average squared prediction error. Large errors
+receive a larger penalty. Lower is better.
+
+RMSE - Root Mean Squared Error: Square root of MSE. It is in the same
+unit as fare. Lower is better.
+
+R-squared (R2): Measures how much variation in the target is explained
+by the model, relative to a baseline mean prediction. A value closer to
+1 is generally better; it can be negative when the model performs worse
+than that baseline.
+
+The program prints a comparison table for Linear Regression and Random
+Forest.
+
+Step 15 - Predict a sample ride The program creates a small sample
+DataFrame with distance, passenger count and time features. Both trained
+models predict its fare.
+
+F. EXPECTED OUTPUT - First five dataset records and dataset shape. -
+Count of fare outliers. - Cleaned dataset shape and missing-value
+information. - Fare boxplot and correlation heatmap. - MAE, MSE, RMSE
+and R2 for both models. - Model comparison table. - Sample predicted
+fare from both models.
+
+G. CONCLUSION The Uber fare dataset is cleaned and transformed into
+useful ride features. Linear Regression and Random Forest Regression are
+trained and compared. The evaluation metrics help identify which model
+performs better on the held-out test records.
+
+======================================================================
+4. PRACTICAL 2 - EMAIL SPAM DETECTION USING KNN AND SVM
+======================================================================
+
+A. AIM To classify email messages as spam or not spam using K-Nearest
+Neighbors (KNN) and Support Vector Machine (SVM), and compare their
+performance.
+
+B. PROBLEM STATEMENT Spam messages are unwanted or fraudulent messages.
+A classification model can learn from labelled examples and predict
+whether a new email is spam.
+
+C. DATASET File used: emails.csv
+
+The supplied emails.csv is a numeric-feature email dataset. It is
+expected to contain: - Email No.: an email identifier, if present. -
+word-frequency columns: numerical features representing the occurrence
+or frequency of words in each email. - Prediction: target label, where 0
+means not spam and 1 means spam.
+
+The code removes Email No. because it is an identifier, not a meaningful
+message feature. It checks that Prediction exists and contains only 0
+and 1.
+
+This code is for the numeric-feature emails.csv file. It is not the same
+format as the SMS dataset that has text columns v1 and v2. If the
+dataset has raw message text instead of numeric word columns, a text
+vectorizer such as TF-IDF must be used instead.
+
+D. LIBRARIES - pandas and numpy: load and prepare data. - matplotlib and
+seaborn: display confusion matrices. - train_test_split: split the
+data. - SimpleImputer: fill missing feature values using the median. -
+StandardScaler: standardize numeric features. - Pipeline: combine
+preprocessing and classifier. - KNeighborsClassifier: KNN
+classification. - LinearSVC: linear Support Vector Machine classifier. -
+accuracy_score, confusion_matrix, classification_report: evaluation.
+
+E. EXPLANATION OF THE CODE
+
+Step 1 - Load data pd.read_csv(“emails.csv”) reads the dataset. head()
+and shape show a preview and dimensions.
+
+Step 2 - Check target column The program checks that Prediction exists.
+If it is absent, the program raises a clear error rather than silently
+training the wrong task.
+
+Step 3 - Separate X and y X contains the numeric input columns. y
+contains Prediction, the output class. Email No. is removed if present
+because it is only an identifier. All feature columns are converted to
+numeric values.
+
+Step 4 - Remove invalid target rows Rows with missing target labels are
+removed. The target labels are converted to integers and checked to
+ensure they are 0 or 1.
+
+Step 5 - Split the dataset The data is split into 80 percent training
+and 20 percent testing. stratify=y preserves approximately the same
+class proportion in both sets. random_state=42 makes the split
+repeatable.
+
+Step 6 - KNN model K-Nearest Neighbors is an instance-based algorithm.
+For a new record, it calculates distances to training records and looks
+at the K closest neighbours. The majority class among those neighbours
+is predicted.
+
+The program uses K=5. It first imputes missing feature values with the
+median, then standardizes features, then trains KNN. These steps are
+kept inside a Pipeline so preprocessing is fitted using training data
+only.
+
+Step 7 - SVM model Support Vector Machine tries to find a decision
+boundary that separates classes with a maximum margin. LinearSVC uses a
+linear decision boundary. It is suitable for many high-dimensional
+numeric feature datasets.
+
+The SVM pipeline also imputes missing values and scales features before
+training.
+
+Step 8 - Evaluate KNN and SVM Accuracy: correct predictions / total
+predictions
+
+Confusion matrix: For binary classification, the matrix shows: - True
+Negative: actual 0 predicted 0. - False Positive: actual 0
+predicted 1. - False Negative: actual 1 predicted 0. - True Positive:
+actual 1 predicted 1.
+
+Precision: TP / (TP + FP)
+
+Precision answers: among messages predicted as spam, how many were
+actually spam?
+
+Recall: TP / (TP + FN)
+
+Recall answers: among all actual spam messages, how many were detected?
+
+F1 score is the harmonic mean of precision and recall. The
+classification report prints precision, recall, F1-score and support for
+each class.
+
+Step 9 - Plot confusion matrices The program displays separate
+confusion-matrix heatmaps for KNN and SVM.
+
+Step 10 - Compare accuracy A small comparison table displays the test
+accuracy of both algorithms.
+
+F. EXPECTED OUTPUT - First five records and dataset shape. - Class
+distribution. - KNN accuracy, confusion matrix and classification
+report. - SVM accuracy, confusion matrix and classification report. -
+Two confusion-matrix heatmaps. - Accuracy comparison table.
+
+G. CONCLUSION The email dataset is prepared and split into training and
+testing data. KNN and SVM are trained and evaluated. Their accuracy,
+precision, recall, F1-score and confusion matrices can be compared to
+understand their classification performance.
+
+======================================================================
+5. PRACTICAL 3 - GRADIENT DESCENT
+======================================================================
+
+A. AIM To understand and implement the Gradient Descent optimization
+algorithm for minimizing a mathematical function.
+
+B. FUNCTION GIVEN IN THE PRACTICAL TOPIC The assignment statement
+identified in the supplied practical material is:
+
+    y = (x + 3)^2
+
+with starting value:
+
+    x = 2
+
+Note: The manual’s worked example was also described as using y=(x+5)^2
+starting from x=3. These are different functions and starting values.
+Follow the exact function and starting point specified by your
+instructor for the final journal. The explanation below uses the
+assignment statement y=(x+3)^2 and x=2.
+
+C. WHAT IS GRADIENT DESCENT? Gradient Descent is an iterative
+optimization algorithm. It updates a parameter in the direction that
+decreases the value of a function.
+
+For a function f(x), the update rule is:
+
+    x_new = x_old - learning_rate * derivative
+
+The derivative gives the slope/gradient at the current x. The learning
+rate controls the size of each update.
+
+D. DERIVATIVE Given:
+
+    y = (x + 3)^2
+
+Using the power rule and chain rule:
+
+    dy/dx = 2(x + 3)
+
+At x=2:
+
+    dy/dx = 2(2 + 3) = 10
+
+If the learning rate is 0.1, the first update is:
+
+    x_new = 2 - 0.1 * 10
+          = 1
+
+The process repeats using the new x value until the parameter approaches
+the minimum. The minimum of (x+3)^2 occurs at x=-3, where y=0.
+
+E. SAMPLE PYTHON CODE
+
+    # Gradient Descent for y = (x + 3)^2
+
+    def function(x):
+        return (x + 3) ** 2
+
+    def derivative(x):
+        return 2 * (x + 3)
+
+    x = 2
+    learning_rate = 0.1
+    iterations = 20
+
+    print("Iteration\t x\t\t y")
+
+    for i in range(iterations):
+        y = function(x)
+        print(i, "\t\t", round(x, 6), "\t", round(y, 6))
+
+        gradient = derivative(x)
+        x = x - learning_rate * gradient
+
+    print("Final x:", x)
+    print("Final y:", function(x))
+
+F. EXPLANATION OF THE CODE 1. function(x) returns the value of (x+3)^2.
+2. derivative(x) returns 2(x+3), the gradient. 3. x=2 is the initial
+value given in the assignment statement. 4. learning_rate=0.1 controls
+the update size. 5. iterations=20 sets how many updates are performed.
+6. The loop calculates the current y and prints the iteration. 7. The
+derivative is calculated at the current x. 8. x is updated by
+subtracting learning_rate multiplied by the gradient. 9. After the loop,
+the final x and y values are printed.
+
+G. EFFECT OF LEARNING RATE - If the learning rate is too small,
+convergence can be slow. - If it is too large, the updates can overshoot
+the minimum or diverge. - A suitable learning rate allows the value to
+move towards the minimum.
+
+H. EXPECTED OUTPUT The printed x and y values should move towards x=-3
+and y=0 for the function y=(x+3)^2 with a suitable learning rate.
+
+I. CONCLUSION Gradient Descent repeatedly updates x using the negative
+gradient. For y=(x+3)^2, the minimum is at x=-3 and the minimum function
+value is 0.
+
+======================================================================
+6. PRACTICAL 4 - BANK CUSTOMER CHURN USING NEURAL NETWORK
+======================================================================
+
+A. AIM To predict whether a bank customer will leave the bank using a
+neural network classification model.
+
+B. PROBLEM STATEMENT Customer churn occurs when a customer stops using a
+bank’s services. A bank can use historical customer data to estimate
+which customers may leave. This practical trains a neural network to
+classify customers into two classes.
+
+C. DATASET File used: Churn_Modelling.csv
+
+Important columns include: - CreditScore: customer’s credit score. -
+Geography: customer’s country/region category. - Gender: customer’s
+gender category in the dataset. - Age: customer’s age. - Tenure: number
+of years with the bank. - Balance: account balance. - NumOfProducts:
+number of bank products used. - HasCrCard: whether the customer has a
+credit card. - IsActiveMember: whether the customer is an active
+member. - EstimatedSalary: estimated salary. - Exited: target; 1 means
+the customer exited, 0 means the customer stayed.
+
+RowNumber, CustomerId and Surname are identifiers or names and are
+removed from the model input.
+
+D. LIBRARIES - pandas and numpy: data processing. - matplotlib and
+seaborn: visualization. - train_test_split: data splitting. -
+StandardScaler: feature normalization/standardization. - accuracy_score,
+confusion_matrix, classification_report: evaluation. - tensorflow.keras:
+neural-network model creation and training. - Dense: fully connected
+neural-network layer. - Dropout: regularization layer that randomly
+drops some activations during training to help reduce overfitting. -
+Input: specifies the number of input features. - EarlyStopping: stops
+training when validation loss stops improving.
+
+E. EXPLANATION OF THE CODE
+
+Step 1 - Load dataset pd.read_csv(“Churn_Modelling.csv”) loads the bank
+customer dataset. head() and shape display a preview and dataset size.
+
+Step 2 - Clean data drop_duplicates() removes repeated records. dropna()
+removes rows with missing values.
+
+Step 3 - Remove identifiers RowNumber, CustomerId and Surname are
+removed because they identify records or customers rather than provide
+the intended predictive behaviour features.
+
+Step 4 - Separate features and target X contains all input columns
+except Exited. y contains Exited, the value the network must predict.
+
+Step 5 - Encode categorical columns Geography and Gender are text
+categories. A neural network requires numeric input. pd.get_dummies()
+converts categories into binary columns. drop_first=True removes one
+reference category for each encoded variable.
+
+Step 6 - Split data The dataset is divided into 80 percent training and
+20 percent testing. stratify=y preserves the class ratio in both groups.
+random_state=42 makes the split repeatable.
+
+Step 7 - Standardize features StandardScaler transforms each feature
+using the training-set mean and standard deviation. The scaler is fitted
+on training data and then applied to test data. This avoids using test
+information during preprocessing.
+
+Step 8 - Build the neural network The network contains: - Input:
+receives the prepared feature values. - Dense(16, activation=“relu”):
+first hidden layer with 16 neurons. - Dropout(0.2): randomly disables 20
+percent of activations during training. - Dense(8, activation=“relu”):
+second hidden layer with 8 neurons. - Dense(1, activation=“sigmoid”):
+one output neuron for binary classification.
+
+ReLU is commonly used in hidden layers. Sigmoid converts the final
+output into a value between 0 and 1, which can be interpreted as the
+estimated probability of class 1.
+
+Step 9 - Compile the model optimizer=“adam”: optimization algorithm that
+updates network weights. loss=“binary_crossentropy”: loss function for
+binary classification. metrics=[“accuracy”]: reports classification
+accuracy during training.
+
+Step 10 - Early stopping EarlyStopping monitors validation loss. If it
+does not improve for the configured number of epochs, training stops and
+the best weights are restored. This can reduce unnecessary training and
+help limit overfitting.
+
+Step 11 - Train model fit() trains the model using X_train and y_train.
+epochs is the maximum number of passes through the training data.
+batch_size is the number of samples processed before a weight update.
+validation_split reserves a portion of the training data for validation.
+
+Step 12 - Predict and classify model.predict() returns probabilities.
+The code converts probabilities into class labels: - probability >= 0.5
+becomes 1 (exited); - probability < 0.5 becomes 0 (did not exit).
+
+Step 13 - Evaluate Accuracy is the proportion of correct predictions.
+The confusion matrix shows correct and incorrect predictions for both
+classes. The classification report includes precision, recall and
+F1-score.
+
+Step 14 - Plot graphs A heatmap displays the confusion matrix. A line
+graph displays training and validation accuracy across epochs.
+
+F. EXPECTED OUTPUT - First five records and dataset shape. - Training
+and testing data shapes. - Training progress. - Test accuracy. -
+Confusion matrix and classification report. - Confusion-matrix
+heatmap. - Training/validation accuracy graph.
+
+G. CONCLUSION The bank churn dataset is cleaned, encoded and
+standardized. A neural network is trained to predict customer churn.
+Test metrics and graphs are used to evaluate its performance.
+
+======================================================================
+7. PRACTICAL 5 - DIABETES PREDICTION USING KNN
+======================================================================
+
+A. AIM To classify whether a person is diabetic or non-diabetic using
+the K-Nearest Neighbors algorithm and select a suitable K value.
+
+B. PROBLEM STATEMENT The dataset contains medical measurement features
+and a binary Outcome label. KNN compares a new record with nearby
+training records and predicts the class based on the nearest neighbours.
+
+C. DATASET File used: diabetes.csv
+
+Typical columns: - Pregnancies - Glucose - BloodPressure -
+SkinThickness - Insulin - BMI - DiabetesPedigreeFunction - Age -
+Outcome: target class, where 0 means non-diabetic and 1 means diabetic.
+
+D. LIBRARIES - pandas and numpy: data handling and numerical
+operations. - matplotlib and seaborn: plots. - train_test_split:
+training, validation and test splits. - StandardScaler: feature
+scaling. - KNeighborsClassifier: KNN classification. - accuracy_score:
+accuracy. - confusion_matrix: classification counts. - precision_score,
+recall_score and f1_score: classification metrics. -
+classification_report: combined evaluation report.
+
+E. EXPLANATION OF THE CODE
+
+Step 1 - Load data The program reads diabetes.csv and displays the first
+five rows and shape.
+
+Step 2 - Remove duplicates and missing rows Repeated records and rows
+containing missing values are removed.
+
+Step 3 - Replace invalid zero measurements In the commonly used Pima
+diabetes dataset, zero is not a realistic measurement for Glucose,
+BloodPressure, SkinThickness, Insulin and BMI. The program replaces
+zeros in these columns with missing values and then fills them using
+each column’s median.
+
+Pregnancies and Outcome are not treated this way because zero can be a
+valid value for those columns.
+
+Step 4 - Separate X and y X contains the input medical measurements. y
+contains Outcome, the target class.
+
+Step 5 - Split off test data 80 percent is reserved for
+training/validation and 20 percent for final testing. stratify=y
+preserves the class balance.
+
+Step 6 - Create validation data The training portion is divided again
+into a smaller training set and a validation set. The validation set is
+used to choose K. The final test set is not used to choose K.
+
+Step 7 - Standardize features KNN uses distance calculations. Features
+with large numeric ranges could dominate those with small ranges.
+StandardScaler puts features on a comparable scale. The scaler is fitted
+on the training subset and applied to validation data.
+
+Step 8 - Find the best K The code tests odd K values from 1 to 21. For
+each K: 1. Create a KNN classifier. 2. Train it on the scaled training
+subset. 3. Predict the validation subset. 4. Calculate error rate.
+
+Error rate is:
+
+    Error Rate = 1 - Accuracy
+
+The K with the smallest validation error is selected. Odd K values are
+used to reduce the chance of a tie in binary voting.
+
+Step 9 - Plot error rate A graph displays K on the horizontal axis and
+validation error rate on the vertical axis. This helps visualize how the
+choice of K affects validation performance.
+
+Step 10 - Train final KNN model A new scaler is fitted on all training
+data. The final KNN model is trained on all training data using the
+selected best K.
+
+Step 11 - Predict test records The trained model predicts the class for
+the held-out test data.
+
+Step 12 - Evaluate the model Accuracy: (TP + TN) / (TP + TN + FP + FN)
+
+Error rate: 1 - accuracy
+
+Precision: TP / (TP + FP)
+
+Recall: TP / (TP + FN)
+
+F1 score: 2 * precision * recall / (precision + recall)
+
+The confusion matrix summarizes correct and incorrect predictions. The
+classification report displays precision, recall, F1-score and support.
+
+F. EXPECTED OUTPUT - First five records and dataset shape. - Validation
+error for each tested K. - Best K value. - K-versus-error graph. - Test
+accuracy and error rate. - Precision, recall and F1-score. - Confusion
+matrix and classification report. - Confusion-matrix heatmap.
+
+G. CONCLUSION The diabetes data is cleaned and standardized. KNN models
+with different K values are compared using validation error. The best K
+is then used to train the final model and evaluate predictions on unseen
+test data.
+
+======================================================================
+8. COMMON MACHINE-LEARNING TERMS
+======================================================================
+
+Dataset: A collection of records used for analysis and model training.
+
+Feature: An input variable used by a model to make a prediction.
+
+Target: The output value or class that the model is trained to predict.
+
+Training data: The data used to learn model parameters.
+
+Testing data: Separate data used to estimate how the trained model
+performs on unseen records.
+
+Validation data: Data used during model development to compare settings
+or select a model. It is separate from the final test set.
+
+Regression: A machine-learning task that predicts a continuous numerical
+value. Example: predicting a ride fare.
+
+Classification: A machine-learning task that predicts a class or
+category. Example: spam/not spam or churn/stay.
+
+Data preprocessing: Cleaning and transforming data before model
+training.
+
+Missing value: A field with no recorded value.
+
+Duplicate: A repeated record.
+
+Outlier: A value unusually far from the rest of the data.
+
+Feature scaling: Transforming features to comparable numeric scales.
+
+Standardization: A common scaling method that subtracts the mean and
+divides by standard deviation, using statistics learned from training
+data.
+
+Overfitting: When a model learns training details too closely and
+performs poorly on new data.
+
+Underfitting: When a model is too simple to learn the important patterns
+in the data.
+
+Model: The learned mathematical or computational relationship used to
+make predictions.
+
+Prediction: The output produced by a trained model for new input data.
+
+Random state: A fixed seed used to make randomized operations
+reproducible.
+
+Confusion matrix: A table comparing actual and predicted classes.
+
+Accuracy: The fraction of all predictions that are correct.
+
+Precision: The fraction of positive predictions that are truly positive.
+
+Recall: The fraction of actual positive records that are correctly
+detected.
+
+F1-score: The harmonic mean of precision and recall.
+
+Epoch: One complete pass through the training data during neural-network
+training.
+
+Batch size: The number of training examples processed together before a
+weight update.
+
+Learning rate: The step size used by an optimization algorithm such as
+Gradient Descent.
+
+======================================================================
+9. TROUBLESHOOTING
+======================================================================
+
+Problem: FileNotFoundError Cause: Python cannot find the CSV file.
+Solution: - Keep the CSV in the same working folder as the script. -
+Check spelling and capitalization. - Check whether the file is named
+diabetes.csv or diabetes(1).csv. - Update the pd.read_csv() filename if
+necessary.
+
+Problem: Missing required columns Cause: The CSV is not the expected
+dataset or has different column names. Solution: - Print
+df.columns.tolist(). - Confirm the dataset matches the practical. - Do
+not rename unrelated columns without checking their meaning.
+
+Problem: No module named pandas / sklearn / tensorflow Cause: Required
+package is not installed in the Python environment being used. Solution:
+python -m pip install pandas numpy matplotlib seaborn scikit-learn
+tensorflow
+
+Problem: TensorFlow installation or import error Cause: Python version
+or environment may not be compatible with the installed TensorFlow
+package. Solution: - Check Python version with python –version. - Use a
+Python version supported by the TensorFlow release you install. -
+Install TensorFlow in the same environment used to run the script.
+
+Problem: Uber practical says fare_amount column is missing Cause: The
+CSV is a trip-log dataset rather than the fare prediction dataset. The
+fare-prediction script requires fare_amount, pickup_datetime,
+pickup/drop-off coordinates and passenger_count. Solution: - Use the
+correct Uber fare dataset specified by the practical. - A trip-log
+dataset with MILES and PURPOSE cannot be used to train this fare_amount
+prediction program.
+
+Problem: Email practical says Prediction column is missing Cause: The
+uploaded CSV may contain raw email text rather than the numeric
+word-feature dataset expected by the current emails.csv script.
+Solution: - Check df.columns.tolist(). - Use the correct email dataset
+for the practical. - If the file contains text and labels rather than
+numeric word columns, the program must use a text vectorizer such as
+TF-IDF.
+
+Problem: Graph window does not appear Solution: - In Jupyter, run the
+cell containing plt.show(). - In a desktop environment, ensure
+matplotlib is installed. - Run the program in an interactive Python
+environment if needed.
+
+Problem: Low accuracy Possible reasons: - Dataset is imbalanced. -
+Features are not sufficiently informative. - Data quality is poor. -
+Model settings are not suitable. - The test data contains patterns not
+well represented in training data. Accuracy alone should not be used to
+judge an imbalanced classification problem; also inspect precision,
+recall, F1-score and the confusion matrix.
+
+======================================================================
+10. QUICK PRACTICAL / VIVA REVISION QUESTIONS
+======================================================================
+
+Q1. What is Machine Learning? Machine Learning is a field in which
+computers learn patterns from data and use those patterns to make
+predictions or decisions.
+
+Q2. What are the main types of Machine Learning? Supervised learning,
+unsupervised learning and reinforcement learning.
+
+Q3. What is supervised learning? Learning from labelled examples where
+the correct target is provided.
+
+Q4. What is regression? Predicting a continuous numerical value.
+
+Q5. What is classification? Predicting a discrete class or category.
+
+Q6. What is Linear Regression? A regression method that models a linear
+relationship between input features and a numerical target.
+
+Q7. What is Random Forest? An ensemble method that combines predictions
+from multiple decision trees.
+
+Q8. What is KNN? K-Nearest Neighbors predicts a class using the labels
+of the K closest training examples.
+
+Q9. What does K mean in KNN? K is the number of nearest training
+neighbours considered for a prediction.
+
+Q10. Why is scaling important for KNN? KNN uses distance calculations.
+Scaling prevents large-range features from dominating the distance.
+
+Q11. What is SVM? Support Vector Machine is a supervised learning
+algorithm that finds a decision boundary separating classes, aiming for
+a large margin.
+
+Q12. What is a neural network? A model made of connected layers of
+computational units (neurons) that learn patterns by adjusting weights.
+
+Q13. What is an activation function? A function applied to a neuron’s
+output. ReLU and sigmoid are examples.
+
+Q14. What is the purpose of ReLU? ReLU returns zero for negative inputs
+and the input itself for positive inputs. It introduces non-linearity in
+hidden layers.
+
+Q15. What is sigmoid? A function that maps a value to the range 0 to 1,
+often used for a binary classification output.
+
+Q16. What is Gradient Descent? An iterative optimization method that
+updates parameters in the direction opposite to the gradient to reduce a
+function’s value.
+
+Q17. What is the learning rate? It controls the size of each Gradient
+Descent update.
+
+Q18. What is a confusion matrix? A table that compares actual class
+labels with predicted class labels.
+
+Q19. What is accuracy? The proportion of predictions that are correct.
+
+Q20. What is precision? Among predicted positive cases, the proportion
+that are actually positive.
+
+Q21. What is recall? Among actual positive cases, the proportion
+correctly identified.
+
+Q22. What is an F1-score? The harmonic mean of precision and recall.
+
+Q23. What is overfitting? When a model fits training data too closely
+and does not generalize well.
+
+Q24. What is train_test_split? A function that divides data into
+separate subsets, commonly training and testing sets.
+
+Q25. Why use random_state? To make randomized data splitting
+reproducible.
+
+Q26. What is StandardScaler? A preprocessing method that standardizes
+features using their mean and standard deviation.
+
+Q27. What is IQR? Interquartile Range, calculated as Q3 minus Q1, used
+to describe spread and identify potential outliers.
+
+Q28. What is the Haversine formula? A formula for calculating
+great-circle distance between two points on a sphere using their
+latitude and longitude.
+
+Q29. What is churn? Customer churn means a customer stops using a
+company’s or bank’s service.
+
+Q30. What does Outcome mean in the diabetes dataset? It is the target
+label: 0 indicates non-diabetic and 1 indicates diabetic in the supplied
+dataset convention.
+
+======================================================================
+FINAL NOTE
+======================================================================
+
+This document explains the purpose, dataset, workflow, important code
+sections, evaluation metrics and expected outputs for the practical
+topics.
+
+Before submitting: 1. Run each program using the matching CSV. 2. Check
+that the output is generated without errors. 3. Record the actual output
+and accuracy values from your run. 4. Keep screenshots of important
+graphs and output if required by your practical journal. 5. Confirm the
+Gradient Descent function and starting value with the instructor because
+the assignment statement and worked example in the manual were described
+with different functions/starting values. 6. Confirm that the Uber and
+email CSV files match the column requirements stated in their respective
+scripts.
+
+End of document.

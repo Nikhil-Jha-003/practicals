@@ -1,0 +1,53 @@
+A. Installation of MetaMask
+1. Open Google Chrome browser.
+2. Visit the official website: MetaMask Download.
+3. Click on Get MetaMask.
+4. Select Google Chrome.
+5. Click on Add to Chrome.
+6. Click on Add Extension.
+7. Open the MetaMask extension.
+8. Click on Create a New Wallet.
+9. Set a strong password.
+10. Securely save your Secret Recovery Phrase.
+11. Complete the verification process.
+12. Your MetaMask wallet is ready.
+
+B. Connect to Sepolia Test Network
+1. Open MetaMask.
+2. Click on the network selector.
+3. Enable Show Test Networks.
+4. Select Sepolia Test Network.
+5. Copy your wallet address.
+6. Open the MetaMask Faucet or Sepolia Faucet.
+7. Request test ETH using your wallet address.
+8. Wait until test ETH is received.
+
+C. Send Ether and Study Transaction Fees
+1. Open MetaMask.
+2. Select the Sepolia network.
+3. Click on Send.
+4. Enter another Sepolia wallet address.
+5. Enter the amount of ETH (e.g. 0.001 ETH).
+6. Click on Next.
+7. Check the estimated gas fee.
+8. Observe the total transaction amount.
+9. Click on Confirm.
+10. Wait for the transaction to complete.
+11. Open the transaction details.
+12. Note the transaction hash and gas fee.
+13. Open Sepolia Etherscan.
+14. Paste your transaction hash in the search box.
+15. Observe the transaction details and Ether spent.
+
+
+D. Study Ether Spending per Transaction
+1. Open the transaction details in MetaMask.
+2. Observe the following details:
+   - Transaction amount
+   - Gas limit
+   - Gas price
+   - Network fee
+   - Total amount spent
+3. Open the transaction on Sepolia Etherscan.
+4. Check the actual transaction fee.
+5. Record the details for different transactions.

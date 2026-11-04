@@ -1,0 +1,21 @@
+Steps to Perform
+1. Open Google Chrome browser.
+2. Visit the official website: MetaMask Official Website.
+3. Click on Get MetaMask.
+4. Select Google Chrome.
+5. Click on Add to Chrome.
+6. Click on Add Extension.
+7. Open the MetaMask extension.
+8. Click on Create a New Wallet.
+9. Accept the terms and conditions.
+10. Create a strong password.
+11. Click on Create Wallet.
+12. MetaMask will show a Secret Recovery Phrase.
+13. Write down the recovery phrase and keep it safe.
+14. Confirm the recovery phrase.
+15. Complete the wallet setup.
+16. Your MetaMask wallet is successfully created.
+17. Copy your wallet address to receive cryptocurrency.
+18. Click on Send to send cryptocurrency to another wallet.
+19. Enter the receiver's wallet address.
+20. Enter the amount and confirm the transaction.

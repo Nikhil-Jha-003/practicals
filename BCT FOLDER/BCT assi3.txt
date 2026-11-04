@@ -1,0 +1,110 @@
+ Open Remix IDE
+1. Open Google Chrome.
+2. Visit Remix IDE.
+3. Click on File Explorer.
+4. Click on Create New File.
+5. Name the file Bank.sol.
+
+
+2. Write Smart Contract Code
+// SPDX-License-Identifier: MIT
+pragma solidity ^0.8.20;
+
+contract Bank {
+
+    mapping(address => uint) public balance;
+
+    // Deposit Money
+    function deposit() public payable {
+        require(msg.value > 0, "Enter valid amount");
+        balance[msg.sender] += msg.value;
+    }
+
+    // Withdraw Money
+    function withdraw(uint amount) public {
+        require(balance[msg.sender] >= amount, "Insufficient balance");
+
+        balance[msg.sender] -= amount;
+
+        payable(msg.sender).transfer(amount);
+    }
+
+    // Show Balance
+    function showBalance() public view returns(uint) {
+        return balance[msg.sender];
+    }
+}
+
+3. Compile the Smart Contract
+1. Click on Solidity Compiler.
+2. Select compiler version 0.8.20 or a compatible version.
+3. Click on Compile Bank.sol.
+4. Wait until the green tick appears.
+
+4. Connect MetaMask
+1. Install the MetaMask extension: MetaMask Download.
+2. Open MetaMask.
+3. Unlock your wallet.
+4. Select Sepolia Test Network.
+5. Return to Remix IDE.
+6. Click on Deploy & Run Transactions.
+7. Select Browser Extension in Environment.
+8. Select MetaMask as the provider.
+9. Connect your wallet if asked.
+
+5. Get Free Sepolia ETH
+1. Copy your MetaMask wallet address.
+2. Open Sepolia Faucet.
+3. Connect your wallet or paste your wallet address.
+4. Request free test ETH.
+5. Wait until the ETH appears in MetaMask.
+6. Make sure you have enough test ETH to pay the deployment fee.
+
+6. Deploy the Smart Contract
+1. Return to Remix IDE.
+2. Open Deploy & Run Transactions.
+3. Select the Bank contract.
+4. Keep the Value field as 0.
+5. Click on Deploy.
+6. MetaMask confirmation will appear.
+7. Check the network fee.
+8. Click on Confirm.
+9. Wait for the transaction to complete.
+10. Find your contract under Deployed Contracts.
+
+7. Perform Deposit Operation
+1. Expand the deployed Bank contract.
+2. Find the Value field in Remix.
+3. Enter 1.
+4. Select Ether from the dropdown.
+5. Click on deposit.
+6. Confirm the transaction in MetaMask.
+7. Wait for the transaction to complete.
+
+8. Perform Withdraw Operation
+1. Find the withdraw function.
+2. Enter 500000000000000000 in the amount field.
+3. This represents 0.5 ETH in Wei.
+4. Click on withdraw.
+5. Confirm the transaction in MetaMask.
+6. Wait for the transaction to complete.
+
+
+9. Show Balance Operation
+1. Find the showBalance function.
+2. Click on showBalance.
+3. The remaining balance will be displayed in Wei.
+4. After depositing 1 ETH and withdrawing 0.5 ETH, the expected balance is:
+Expected balance
+0.5 ETH
+500000000000000000 Wei
+
+
+10. Check Transaction Details
+1. Open Sepolia Etherscan.
+2. Copy your transaction hash from Remix.
+3. Paste it into the search box.
+4. Click Search.
+5. Observe transaction status, gas fee and transaction details.
+
+

@@ -1,0 +1,118 @@
+Step 1: Open Remix IDE
+1. Open Google Chrome.
+2. Visit Remix IDE.
+3. Click on File Explorer.
+4. Click on Create New File.
+5. Create a file named Student.sol.
+
+2.
+
+// SPDX-License-Identifier: MIT
+pragma solidity ^0.8.20;
+
+contract Student {
+
+    // Structure
+    struct StudentData {
+        uint id;
+        string name;
+        uint age;
+        string course;
+    }
+
+    // Array
+    StudentData[] public students;
+
+    // Add student details
+    function addStudent(
+        uint _id,
+        string memory _name,
+        uint _age,
+        string memory _course
+    ) public {
+        students.push(
+            StudentData(_id, _name, _age, _course)
+        );
+    }
+
+    // Get student details
+    function getStudent(uint index)
+        public view returns (
+            uint, string memory, uint, string memory
+        )
+    {
+        StudentData memory s = students[index];
+
+        return (s.id, s.name, s.age, s.course);
+    }
+
+    // Get total students
+    function getStudentCount() public view returns(uint) {
+        return students.length;
+    }
+
+    // Fallback function
+    fallback() external payable {
+    }
+}
+
+Step 3: Compile the Program
+1. Click on Solidity Compiler.
+2. Select compiler version 0.8.20 or compatible version.
+3. Click on Compile Student.sol.
+4. Wait for the green tick.
+Step 4: Connect MetaMask
+1. Open MetaMask extension.
+2. Unlock your wallet.
+3. Select Sepolia Test Network.
+4. Return to Remix IDE.
+5. Click on Deploy & Run Transactions.
+6. Select Browser Extension in Environment.
+7. Connect your MetaMask wallet.
+Step 5: Deploy Smart Contract
+1. Select the Student contract.
+2. Keep Value as 0.
+3. Click on Deploy.
+4. MetaMask confirmation will appear.
+5. Click on Confirm.
+6. Wait for deployment to complete.
+7. Open Deployed Contracts.
+8. Expand the Student contract.
+Step 6: Add Student Data
+1. Find the addStudent function.
+2. Enter the following details:
+Field	Value
+ID	1
+Name	Rahul
+Age	21
+Course	Computer Engineering
+
+3. Click on addStudent.
+4. Confirm the transaction in MetaMask.
+5. Wait for the transaction to complete.
+Step 7: Display Student Data
+1. Find the getStudent function.
+2. Enter index 0.
+3. Click on getStudent.
+4. Student details will be displayed.
+5. Click on getStudentCount.
+6. It will display the total number of students.
+Step 8: Test Fallback Function
+1. Copy the deployed contract address from Remix.
+2. Open MetaMask.
+3. Click on Send.
+4. Paste your deployed contract address.
+5. Enter a small amount of Sepolia test ETH.
+6. Send the transaction without adding any data.
+7. Confirm the transaction.
+8. The fallback function will execute because the contract has no receive() function.
+9. Check the transaction status on Sepolia Etherscan.
+Step 9: Observe Gas and Transaction Fee
+1. Open Remix IDE.
+2. Click on Transaction History.
+3. Select the deployment transaction.
+4. Observe the gas used.
+5. Observe the transaction fee.
+6. Open Sepolia Etherscan.
+7. Paste the transaction hash.
+8. Check transaction details.
